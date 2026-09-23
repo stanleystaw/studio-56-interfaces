@@ -2,11 +2,11 @@
 
 Une galerie statique en français qui rassemble les **56 visuels transmis**. La page d’accueil propose une recherche, des filtres par catégorie et un lien dédié pour chaque référence (`#/interface/01` à `#/interface/56`).
 
-## Fidélité visuelle
+## Recréation des interfaces
 
-Pour garder le rendu **strictement identique aux images**, chaque fiche détail affiche directement la capture d’origine, entière et sans recadrage (à sa largeur native quand l’écran le permet). Les cadres, la navigation, la recherche et le téléchargement sont les éléments d’interface ajoutés autour.
+Chaque référence ouvre une page construite en HTML, CSS et JavaScript : navigation, textes, boutons, cartes, formulaires et sections sont de vrais éléments web. Les fichiers de capture complets ne servent pas de pages. Des recadrages peuvent être utilisés comme illustrations dans la mise en page.
 
-> Les écrans montrés dans les images ne sont pas 56 sites indépendants recodés : leurs boutons, formulaires et menus visibles restent ceux des captures. La galerie, les filtres, le changement de référence, le partage du lien et le téléchargement fonctionnent.
+> Les sources originales, polices et assets séparés n’ayant pas été fournis, il s’agit d’une reconstruction visuelle fidèle, sans promesse de correspondance pixel-perfect absolue. La galerie, la recherche, les filtres, le changement de référence, les formulaires de démonstration et les actions visibles sont interactifs.
 
 ## Lancer en local
 
