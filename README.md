@@ -1,12 +1,12 @@
 # Studio 56 — galerie d’interfaces
 
-Une galerie statique en français qui rassemble les **56 visuels transmis**. La page d’accueil propose une recherche, des filtres par catégorie et un lien dédié pour chaque référence (`#/interface/01` à `#/interface/56`).
+Galerie responsive en français avec une page d’accueil qui référence les **56 visuels transmis**. Chaque référence ouvre maintenant une **recréation de page en HTML/CSS** : navigation, sections, cartes, formulaires et boutons sont construits dans le DOM et ne sont pas une capture plein écran.
 
-## Recréation des interfaces
+Les captures d’origine restent les miniatures de la galerie. Dans les pages reconstituées, seuls des **extraits recadrés** servent de visuels décoratifs ; la mise en page elle-même est recodée. Les boutons de navigation, le menu mobile, les ajouts au panier et les formulaires de démonstration sont interactifs. Les formulaires n’envoient pas de données à un service externe.
 
-Chaque référence ouvre une page construite en HTML, CSS et JavaScript : navigation, textes, boutons, cartes, formulaires et sections sont de vrais éléments web. Les fichiers de capture complets ne servent pas de pages. Des recadrages peuvent être utilisés comme illustrations dans la mise en page.
+## Limite importante sur la fidélité
 
-> Les sources originales, polices et assets séparés n’ayant pas été fournis, il s’agit d’une reconstruction visuelle fidèle, sans promesse de correspondance pixel-perfect absolue. La galerie, la recherche, les filtres, le changement de référence, les formulaires de démonstration et les actions visibles sont interactifs.
+Une capture aplatie ne contient pas les fichiers séparés (photos originales, polices, SVG), les mesures CSS exactes ni les états interactifs du site d’origine. Les pages sont donc des **reproductions visuelles travaillées**, pas le code source original et pas une garantie de pixel-perfect. Pour une copie pixel-par-pixel, il faut les éléments originaux ou des captures plus détaillées de chaque section.
 
 ## Lancer en local
 
@@ -20,21 +20,14 @@ Puis ouvrir <http://localhost:4173>.
 
 ## Publication sur GitHub Pages
 
-Le workflow `.github/workflows/pages.yml` publie automatiquement le site sur GitHub Pages après un push sur la branche `main`.
+Le workflow `.github/workflows/pages.yml` publie automatiquement le site après un push sur la branche `main`.
 
-1. Créer un dépôt (par exemple `studio-56-interfaces`) sous le compte GitHub voulu.
-2. Depuis un terminal où Git est connecté au compte, pousser le contenu de ce dossier :
+Dépôt actuel : <https://github.com/stanleystaw/studio-56-interfaces>
 
-```bash
-git init
-git add .
-git commit -m "Créer la galerie Studio 56"
-git branch -M main
-git remote add origin https://github.com/stanleystaw/studio-56-interfaces.git
-git push -u origin main
-```
+Site publié : <https://stanleystaw.github.io/studio-56-interfaces/>
 
-3. Dans **Settings → Pages**, choisir **GitHub Actions** comme source si ce n’est pas déjà le cas.
-4. Le workflow déploie le site ; l’URL apparaît dans **Actions** et **Settings → Pages** (pour cet exemple : `https://stanleystaw.github.io/studio-56-interfaces/`).
+## Navigation
 
-Connecte Git avec GitHub CLI, le gestionnaire d’identifiants ou une clé SSH. **Ne mets jamais un token dans l’URL du dépôt ni dans un fichier du projet.** Les ressources utilisent des chemins relatifs et les pages détail passent par le hash (`/#/interface/01`), ce qui fonctionne aussi sous un sous-chemin GitHub Pages.
+- Accueil / catalogue : `/`
+- Chaque page dédiée : `/#/interface/01` à `/#/interface/56`
+- Sur une page : le dock en bas à gauche permet de revenir à la galerie ou de passer à la référence précédente/suivante.

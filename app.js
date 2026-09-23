@@ -53,13 +53,13 @@ const rows = [
   ["QX — Cinema 4D course", "Formation", "Une interface de formation créative autour d’un parcours débutant en Cinema 4D."],
   ["Tecton — AI solutions", "Tech & produit", "Une vitrine IA sombre présentant automatisation, analyse de données et solutions numériques."],
   ["HYKROX — Creative designers", "Studio & services", "Une agence de création à l’esthétique noire et turquoise, avec services, équipe et chiffres-clés."],
-  ["Abdullah Tariq — Web developer", "Portfolio", "Un portfolio de développeur full-stack en bleu néon, avec projets et formulaire de contact."],
+  ["Navia — Frontend developer", "Portfolio", "Un portfolio violet de développeuse frontend, avec certifications, compétences, projets et formulaire de contact."],
   ["Digital Designer — Portfolio", "Portfolio", "Une page de designer digitale sombre, centrée sur les titres expressifs et les collaborations."]
 ];
 
 const references = rows.map(([title, category, description], index) => {
   const id = String(index + 1).padStart(2, "0");
-  return { id, title, category, description, asset: `./assets/art/art-${id}.jpg` };
+  return { id, title, category, description, asset: `./assets/references/ref-${id}.jpg` };
 });
 
 const iconPaths = {
@@ -133,20 +133,20 @@ function renderHome() {
           <div class="hero-content">
             <div class="eyebrow"><span class="eyebrow-dot"></span> Moodboard interactif · édition 01</div>
             <h1 id="hero-title">Des idées<br>à <span class="gradient-word">parcourir.</span></h1>
-            <p class="hero-copy">56 inspirations transformées en vraies pages web. Chaque interface est reconstruite en HTML/CSS avec sa propre mise en page, ses couleurs, ses sections et ses interactions.</p>
+            <p class="hero-copy">56 inspirations transformées en pages web. Ouvre une référence pour découvrir sa mise en page reconstruite en HTML et CSS, avec sections, navigation et éléments interactifs.</p>
             <div class="hero-actions">
               <a class="button button-primary" href="#catalogue">Explorer les références ${icon("arrowRight")}</a>
               <a class="button button-quiet" href="#/interface/01">Ouvrir la première ${icon("arrowUpRight")}</a>
             </div>
-            <div class="hero-note"><span></span> Les pages détail sont recodées — pas des captures affichées en plein écran.</div>
+            <div class="hero-note"><span></span> Les captures servent de référence visuelle ; les pages détail sont recodées.</div>
           </div>
           <div class="hero-art" aria-label="Aperçu de plusieurs références">
             <div class="hero-orbit"></div>
-            <a class="float-shot one" href="#/interface/03" tabindex="-1" aria-hidden="true"><img src="./assets/art/art-03.jpg" alt=""></a>
-            <a class="float-shot two" href="#/interface/48" tabindex="-1" aria-hidden="true"><img src="./assets/art/art-48.jpg" alt=""></a>
-            <a class="float-shot three" href="#/interface/29" tabindex="-1" aria-hidden="true"><img src="./assets/art/art-29.jpg" alt=""></a>
-            <a class="float-shot four" href="#/interface/54" tabindex="-1" aria-hidden="true"><img src="./assets/art/art-54.jpg" alt=""></a>
-            <div class="float-label label-a"><span class="tiny-mark">✦</span><span><strong>Collection complète</strong><small>56 pages en vrai code</small></span></div>
+            <a class="float-shot one" href="#/interface/03" tabindex="-1" aria-hidden="true"><img src="./assets/references/ref-03.jpg" alt=""></a>
+            <a class="float-shot two" href="#/interface/48" tabindex="-1" aria-hidden="true"><img src="./assets/references/ref-48.jpg" alt=""></a>
+            <a class="float-shot three" href="#/interface/29" tabindex="-1" aria-hidden="true"><img src="./assets/references/ref-29.jpg" alt=""></a>
+            <a class="float-shot four" href="#/interface/54" tabindex="-1" aria-hidden="true"><img src="./assets/references/ref-54.jpg" alt=""></a>
+            <div class="float-label label-a"><span class="tiny-mark">✦</span><span><strong>Collection complète</strong><small>56 visuels originaux</small></span></div>
             <div class="float-label label-b"><span class="tiny-mark">↗</span><span><strong>Un clic pour ouvrir</strong><small>Navigation précédente / suivante</small></span></div>
             <div class="hero-index"><b>56</b> références · <b>01</b> galerie</div>
           </div>
@@ -155,16 +155,16 @@ function renderHome() {
 
       <section class="stats-strip container" aria-label="À propos de la galerie">
         <div class="stats-panel">
-          <div class="stat"><div><div class="stat-label">Références reconstruites</div><div class="stat-value">56 interfaces</div></div><span class="stat-icon">${icon("layers")}</span></div>
-          <div class="stat"><div><div class="stat-label">Chaque page est composée en</div><div class="stat-value">HTML · CSS · JS</div></div><span class="stat-icon">${icon("monitor")}</span></div>
-          <div class="stat"><div><div class="stat-label">Une galerie pour naviguer</div><div class="stat-value">1 index · 56 pages</div></div><span class="stat-icon">${icon("grid")}</span></div>
+          <div class="stat"><div><div class="stat-label">Références réunies</div><div class="stat-value">56 écrans</div></div><span class="stat-icon">${icon("layers")}</span></div>
+          <div class="stat"><div><div class="stat-label">Reconstruction</div><div class="stat-value">HTML + CSS</div></div><span class="stat-icon">${icon("image")}</span></div>
+          <div class="stat"><div><div class="stat-label">Navigation</div><div class="stat-value">1 galerie · 56 pages</div></div><span class="stat-icon">${icon("grid")}</span></div>
         </div>
       </section>
 
       <section class="catalog-section container" id="catalogue" aria-labelledby="catalogue-title">
         <div class="section-heading">
           <div><div class="section-kicker">Le tableau complet</div><h2 id="catalogue-title">Choisis une direction.</h2></div>
-          <p>Chaque carte ouvre une interface reconstruite : navigation, textes, boutons, cartes et sections sont des éléments web réels, pas une image de la page.</p>
+          <p>Chaque carte ouvre une page reconstruite. Les captures restent dans le catalogue comme repères ; les pages détail utilisent de vrais composants web.</p>
         </div>
         <div class="catalog-tools">
           <div class="tool-row">
@@ -183,7 +183,7 @@ function renderHome() {
 
       <section class="container" id="a-propos" style="padding:0 0 74px">
         <div class="info-card" style="display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:22px;padding:22px 25px">
-          <div><div class="section-kicker" style="margin:0 0 8px">À propos du rendu</div><strong style="display:block;font-size:18px;letter-spacing:-.04em">Des interfaces construites en vrai code.</strong><p style="max-width:760px;margin:8px 0 0;color:var(--muted);font-size:11px;line-height:1.7">Chaque route assemble une page HTML/CSS avec sa composition, ses sections, ses textes, ses boutons et des interactions. Les images de référence ne sont plus utilisées comme pages complètes ; quelques recadrages servent uniquement d’illustrations. Sans les fichiers sources, polices et assets séparés d’origine, le rendu est une reconstruction fidèle, pas une garantie de pixel-perfect absolu.</p></div>
+          <div><div class="section-kicker" style="margin:0 0 8px">À propos du rendu</div><strong style="display:block;font-size:18px;letter-spacing:-.04em">Des pages reconstruites, pas de simples captures.</strong><p style="max-width:760px;margin:8px 0 0;color:var(--muted);font-size:11px;line-height:1.7">Chaque fiche détail est une vraie page HTML/CSS : navigation, sections, cartes, formulaires de démonstration et mise en page sont recodés. Les captures servent de repères visuels et leurs illustrations sont réutilisées sous forme d’extraits. Une copie au pixel près nécessiterait les fichiers sources, les polices et les images originales de chaque maquette.</p></div>
           <a class="button button-quiet" href="#catalogue">Retourner au catalogue ${icon("arrowUpRight")}</a>
         </div>
       </section>
@@ -259,33 +259,18 @@ function detailRoute() {
 }
 
 function renderDetail(item) {
+  currentView = "detail";
   if (!item) {
-    currentView = "not-found";
+    document.title = "Interface introuvable — Studio 56";
     app.innerHTML = `${header(true)}<main id="main" class="container" style="padding:90px 0 130px;text-align:center"><div class="eyebrow" style="justify-content:center"><span class="eyebrow-dot"></span> Référence introuvable</div><h1 style="font-size:clamp(38px,8vw,72px);letter-spacing:-.07em">Cette page n’existe pas.</h1><a class="button button-primary" href="#/">Revenir à la galerie ${icon("arrowLeft")}</a></main>${footer()}`;
     return;
   }
-  currentView = "detail";
-  const index = references.findIndex(ref => ref.id === item.id);
-  const previous = references[(index - 1 + references.length) % references.length];
-  const next = references[(index + 1) % references.length];
-  document.title = `${item.title} — interface reconstruite · Studio 56`;
-  const recreatedSite = window.buildRecreatedSite(item);
-  app.innerHTML = `<div class="recreation-wrap">
-    <div class="recreation-toolbar">
-      <a class="recreation-back" href="#/">${icon("arrowLeft")} <span>Galerie</span></a>
-      <div class="recreation-status"><b>REF ${item.id}</b><span>Interface reconstruite · HTML / CSS</span></div>
-      <div class="recreation-actions"><button type="button" data-copy class="recreation-control" aria-label="Copier le lien">${icon("copy")}<span>Copier le lien</span></button><button type="button" data-immersive class="recreation-control" aria-label="Masquer la barre">${icon("monitor")}<span>Immersion</span></button><a class="recreation-pager" href="#/interface/${previous.id}" aria-label="Interface précédente">${icon("chevronLeft")}</a><a class="recreation-pager" href="#/interface/${next.id}" aria-label="Interface suivante">${icon("chevronRight")}</a></div>
-    </div>
-    <main id="main" class="recreation-stage">${recreatedSite}</main>
-    <div class="toast recreation-toast" id="site-toast" role="status">${icon("check")}<span>Action effectuée.</span></div>
-  </div>`;
-  app.querySelector("[data-copy]").addEventListener("click", copyCurrentLink);
-  app.querySelector("[data-immersive]").addEventListener("click", () => {
-    document.body.classList.toggle("immersive-mode");
-  });
-  window.bindRecreatedSite(app.querySelector(".recreation-stage"));
+  if (typeof window.renderRecreatedSite === "function") {
+    window.renderRecreatedSite(item, references);
+  } else {
+    app.innerHTML = `${header(true)}<main class="container" style="padding:70px 0"><h1>${escapeHTML(item.title)}</h1><p>Chargement de la recréation de l’interface…</p></main>`;
+  }
 }
-
 async function copyCurrentLink() {
   try {
     await navigator.clipboard.writeText(window.location.href);
@@ -299,7 +284,7 @@ async function copyCurrentLink() {
     document.execCommand("copy");
     helper.remove();
   }
-  const toast = document.getElementById("site-toast");
+  const toast = document.getElementById("toast");
   if (toast) {
     toast.classList.add("show");
     clearTimeout(toastTimer);
@@ -326,10 +311,6 @@ function route() {
 
 window.addEventListener("hashchange", route);
 window.addEventListener("keydown", event => {
-  if (event.key === "Escape" && document.body.classList.contains("immersive-mode")) {
-    document.body.classList.remove("immersive-mode");
-    return;
-  }
   const target = event.target;
   const isTyping = target && (target.matches("input, textarea, select") || target.isContentEditable);
   if (currentView === "detail" && !isTyping) {

@@ -1,251 +1,291 @@
-/* Real HTML/CSS recreations for each reference. Source screenshots are not rendered as pages. */
+/* Recréations HTML/CSS des références. Les captures complètes servent uniquement au catalogue ; ici, le contenu est reconstruit en composants web. */
 (() => {
-  const layouts = [
-    'planner','saas','shop','agency','shop','shop','agency','saas','industrial','portfolio',
-    'realty','fintech','realty','portfolio','realty','foundation','food','agency','fintech','agency',
-    'feature','agency','nft','feature','portfolio','agency','portfolio','feature','saas','portfolio',
-    'portfolio','shop','shop','character','event','feature','portfolio','portfolio','food','fintech',
-    'food','nft','agency','agency','shop','portfolio','fintech','shop','feature','saas',
-    'feature','course','saas','agency','portfolio','portfolio'
-  ];
-  const headlines = [
-    'One Task|at a Time','A Smart Product|QC Checking','NEW BALANCE|Move with purpose','Professional|Web Design & Development','Drive the|Next Chapter','Discover Products|You’ll Love','Innovate.|Transform.|Thrive.','Techon|Human Potential','Precision|3D Printing','Digital|Designer',
-    'Find Eco-Friendly|Homes Easily','Spend your crypto|in a new way','Finding Your|New Home Is Simple','Jason|Martin','Invest in|Real Estate','Never say never|because limits are an illusion','Pizza &|Burger','Website Content|Creation','Experience the|Future of Payments','Driving innovation|through technology',
-    'Dynamic|Shapes','Grow Your|Business Online','Collect Next|Generation NFTs Today','Create Beautiful|Website','Unlimited|Digital Design','Make Your Future|Better','Hi, I’m|QualiCode','Dynamic Shapes|Vibrant Colors','Crafted with|Care','Studio|Pley',
-    'Hi, I’m|OualiCode','Fontain|2024','Explore the|World of 3D Printing','Meet your|Hunters','Explore the Future|of the Metaverse','Create a|Website','I’m Mary Smith|Designer','I build digital|experiences that matter','Coffee,|made with care','Send your crypto|in a new way',
-    'Burger|Spiesz','Make your|Website Stand Out in 3D','Innovate.|Elevate.|Transform.','Innovate.|Elevate.|Transform.','NEW|Move better','Portfolio|3D Artist','Send, Receive,|Top-Up Your Money','Future|Technology Today','Make Your Website|Stand Out in 3D','A Smart Product|QC Checking',
-    'Dynamic|Shapes','Beginner’s Guide|to Cinema 4D','Techon|We’re redefining possibility','We are Creative|Designers','I build digital|experiences that matter','Digital|Designer'
-  ];
-  const themeNames = [
-    'violet','lime','ink','orange','pink','light','blue','purple','orange','ink','forest','lavender','ocean','gray','violet','ocean','red','ink','purple','gray','electric','light','purple','soft','ink','light','violet','electric','soft','purple','ink','light','ocean','gray','purple','soft','gray','electric','forest','purple','red','electric','electric','ocean','ink','purple','lavender','light','blue','lime','electric','blue','purple','electric','electric','gray'
-  ];
-  const palettes = {
-    violet:  { bg:'#100c1c', panel:'#191426', panel2:'#211a30', ink:'#f6f2ff', muted:'#b7adc9', line:'rgba(255,255,255,.12)', accent:'#a277ff', accent2:'#dc72ff', soft:'rgba(162,119,255,.16)', light:false },
-    lime:    { bg:'#07131b', panel:'#10212a', panel2:'#152a31', ink:'#f4f7f8', muted:'#9eafb4', line:'rgba(255,255,255,.12)', accent:'#80e535', accent2:'#1acb91', soft:'rgba(128,229,53,.17)', light:false },
-    ink:     { bg:'#101116', panel:'#191a20', panel2:'#202129', ink:'#f4f3f2', muted:'#a5a4ad', line:'rgba(255,255,255,.13)', accent:'#f15b98', accent2:'#b59bff', soft:'rgba(241,91,152,.16)', light:false },
-    orange:  { bg:'#f5f0e8', panel:'#fffdf9', panel2:'#eee8dd', ink:'#211e1a', muted:'#777068', line:'rgba(32,27,22,.12)', accent:'#f07425', accent2:'#ffbd58', soft:'rgba(240,116,37,.13)', light:true },
-    pink:    { bg:'#100c12', panel:'#1a151d', panel2:'#261621', ink:'#f8f3f7', muted:'#b6a9b3', line:'rgba(255,255,255,.13)', accent:'#ed4caa', accent2:'#a776ff', soft:'rgba(237,76,170,.17)', light:false },
-    light:   { bg:'#f7f8fa', panel:'#ffffff', panel2:'#edf0f5', ink:'#171b23', muted:'#69717f', line:'rgba(20,27,39,.12)', accent:'#2c68ec', accent2:'#50b8dc', soft:'rgba(44,104,236,.11)', light:true },
-    blue:    { bg:'#0a162b', panel:'#122342', panel2:'#182d52', ink:'#f5f7ff', muted:'#a7b6d2', line:'rgba(255,255,255,.14)', accent:'#4a8cff', accent2:'#35d2ed', soft:'rgba(74,140,255,.17)', light:false },
-    purple:  { bg:'#10071c', panel:'#1b0e2e', panel2:'#26123e', ink:'#f8f4ff', muted:'#b8a9cd', line:'rgba(255,255,255,.14)', accent:'#a855f7', accent2:'#3a8dff', soft:'rgba(168,85,247,.18)', light:false },
-    forest:  { bg:'#f1f2e8', panel:'#fffdf6', panel2:'#e3e8db', ink:'#17251e', muted:'#68756a', line:'rgba(24,53,36,.13)', accent:'#47784a', accent2:'#9bbd77', soft:'rgba(71,120,74,.13)', light:true },
-    lavender:{ bg:'#f4f0fb', panel:'#ffffff', panel2:'#e9e2f8', ink:'#211c2f', muted:'#756c86', line:'rgba(36,23,60,.12)', accent:'#8051de', accent2:'#b955ee', soft:'rgba(128,81,222,.13)', light:true },
-    ocean:   { bg:'#eaf1f7', panel:'#ffffff', panel2:'#dce7f0', ink:'#172a38', muted:'#627481', line:'rgba(23,42,56,.12)', accent:'#1461c8', accent2:'#50b9d7', soft:'rgba(20,97,200,.12)', light:true },
-    red:     { bg:'#111014', panel:'#1d1a20', panel2:'#2b2428', ink:'#faf7f4', muted:'#b7adb0', line:'rgba(255,255,255,.13)', accent:'#ef3439', accent2:'#ff9a22', soft:'rgba(239,52,57,.18)', light:false },
-    electric:{ bg:'#071725', panel:'#0e2231', panel2:'#123046', ink:'#f2fbff', muted:'#9eb6c4', line:'rgba(255,255,255,.13)', accent:'#1bd1d0', accent2:'#8f68ff', soft:'rgba(27,209,208,.15)', light:false },
-    soft:    { bg:'#f3efff', panel:'#fffdfc', panel2:'#ebe4ff', ink:'#202033', muted:'#76738a', line:'rgba(38,32,68,.12)', accent:'#8a60ee', accent2:'#f05ba8', soft:'rgba(138,96,238,.14)', light:true },
-    gray:    { bg:'#191b20', panel:'#23262d', panel2:'#2b2f37', ink:'#f4f4f4', muted:'#a6aab0', line:'rgba(255,255,255,.13)', accent:'#d0d5df', accent2:'#75a0cb', soft:'rgba(208,213,223,.12)', light:false }
-  };
-  const layoutLabels = {
-    planner:'Productivité', saas:'SaaS · produit numérique', shop:'Commerce · boutique en ligne', industrial:'Industrie · impression 3D',
-    agency:'Agence · services digitaux', portfolio:'Portfolio · profil créatif', realty:'Immobilier · recherche de biens',
-    fintech:'Fintech · paiement', food:'Restaurant · food', event:'Événement · communauté', feature:'Concept · expérience visuelle',
-    nft:'Art numérique · collection', course:'Formation · cours en ligne', character:'Fiche · personnage', foundation:'Sport · fondation'
-  };
-  const brandById = {
-    '01':'OneTask','02':'KySee','03':'New Balance','04':'Pixel Point','05':'Porsche','06':'NovaTrend','07':'Apex Solutions','08':'Tecton','09':'FABRIX','10':'Digital Designer',
-    '11':'PooIs','12':'Coinfever','13':'Rent & U','14':'Jason Martin','15':'Invest','16':'Virat Kohli Foundation','17':'Pittu Pittu','18':'Byteaxe','19':'exactly bar','20':'Apex Solutions',
-    '21':'Surface','22':'Hoth','23':'Cyfoni','24':'Create.','25':'Lovro Podnik','26':'Byteaxe','27':'QualiCode','28':'Dynamic Shapes','29':'Clayful','30':'Studio Pley',
-    '31':'OualiCode','32':'Fontain','33':'3DPRINT','34':'Solo Leveling','35':'Enter the Metaverse','36':'Website Studio','37':'Mary Smith','38':'Abdullah Tariq','39':'Лист & Зёрна','40':'Coinfever',
-    '41':'Pittu Pittu','42':'Flacto','43':'Comatis','44':'Apex Solutions','45':'Techgear','46':'Francesca Lupi','47':'Payze','48':'Example','49':'Isometric Studio','50':'KySee',
-    '51':'Interface Lab','52':'QX','53':'Tecton','54':'HYKROX','55':'Abdullah Tariq','56':'Digital Designer'
+  const themes = {
+    violet: { bg: "#10091c", panel: "#1d1430", panel2: "#281a40", fg: "#f8f4ff", muted: "#b5aec3", accent: "#a880ff", accent2: "#35d4dc", line: "rgba(255,255,255,.14)", soft: "#efeaff" },
+    lime: { bg: "#061018", panel: "#122332", panel2: "#19384a", fg: "#f5fbff", muted: "#9bafbb", accent: "#77e83d", accent2: "#00ca97", line: "rgba(200,236,255,.15)", soft: "#efffe8" },
+    blue: { bg: "#edf4fb", panel: "#ffffff", panel2: "#e0ecf8", fg: "#111c2c", muted: "#617187", accent: "#1769d2", accent2: "#55c0df", line: "rgba(16,38,74,.12)", soft: "#e7f1ff" },
+    deepblue: { bg: "#071a38", panel: "#0c2d62", panel2: "#123d80", fg: "#f5f8ff", muted: "#c0cde1", accent: "#4d9dff", accent2: "#16c9d8", line: "rgba(230,243,255,.16)", soft: "#dcecff" },
+    orange: { bg: "#fff7ef", panel: "#ffffff", panel2: "#f7e8da", fg: "#1c1b1b", muted: "#69605a", accent: "#ef6429", accent2: "#ffb13d", line: "rgba(45,34,26,.13)", soft: "#fff0e3" },
+    rose: { bg: "#fff2f7", panel: "#ffffff", panel2: "#f9dfeb", fg: "#21121b", muted: "#796976", accent: "#ec4e9b", accent2: "#9b65ef", line: "rgba(73,31,57,.13)", soft: "#ffe5f1" },
+    black: { bg: "#08090d", panel: "#14161c", panel2: "#20232c", fg: "#f4f4f8", muted: "#a1a3af", accent: "#a573ff", accent2: "#35d7e2", line: "rgba(255,255,255,.14)", soft: "#ece3ff" },
+    green: { bg: "#edf4e9", panel: "#fffdf8", panel2: "#dcebd6", fg: "#17231b", muted: "#617063", accent: "#347e4b", accent2: "#86b56c", line: "rgba(31,65,41,.14)", soft: "#e1f0d9" },
+    cream: { bg: "#f4eddf", panel: "#fffaf1", panel2: "#e9ddc7", fg: "#211c18", muted: "#776e63", accent: "#815a3d", accent2: "#cf824c", line: "rgba(47,36,26,.15)", soft: "#f5e6d3" },
+    slate: { bg: "#1c2028", panel: "#272c36", panel2: "#333a47", fg: "#f1f3f6", muted: "#aeb4c0", accent: "#bcc5d4", accent2: "#8f9bb0", line: "rgba(255,255,255,.15)", soft: "#edf1f7" },
+    cyan: { bg: "#061b25", panel: "#0b2b36", panel2: "#113d47", fg: "#effeff", muted: "#a6c1c5", accent: "#18d2c4", accent2: "#48a9ff", line: "rgba(215,255,255,.15)", soft: "#d8fffa" },
+    purple: { bg: "#24105a", panel: "#321775", panel2: "#492397", fg: "#fffaff", muted: "#ded1f6", accent: "#bb67ff", accent2: "#4daeff", line: "rgba(255,255,255,.18)", soft: "#efe2ff" },
+    coral: { bg: "#fff7f2", panel: "#ffffff", panel2: "#f6e6df", fg: "#201916", muted: "#756861", accent: "#ed533d", accent2: "#ff9d64", line: "rgba(61,35,29,.13)", soft: "#ffe5d8" }
   };
 
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  const artPath = id => `./assets/art/art-${String(id).padStart(2,'0')}.jpg`;
-  const idNumber = id => Number.parseInt(id,10) || 1;
-  function themeVars(theme) {
-    return `--w-bg:${theme.bg};--w-panel:${theme.panel};--w-panel2:${theme.panel2};--w-ink:${theme.ink};--w-muted:${theme.muted};--w-line:${theme.line};--w-accent:${theme.accent};--w-accent2:${theme.accent2};--w-soft:${theme.soft};--w-light:${theme.light ? '1' : '0'};`;
-  }
-  function titleMarkup(site) {
-    const parts = headlines[idNumber(site.id)-1].split('|');
-    return parts.map((part,i) => `<span class="hero-line ${i>0?'accent-line':''}">${esc(part)}</span>`).join(' ');
-  }
-  function nav(site, names=['About','Services','Projects','Contact'], cta='Let’s talk') {
-    const ids=['site-about','site-services','site-work','site-contact'];
-    return `<header class="w-nav"><a class="w-brand" href="#site-top"><span class="w-brand-symbol">${esc(site.brand.slice(0,1))}</span><span>${esc(site.brand)}</span></a><nav class="w-links" id="w-links">${names.map((label,i)=>`<a href="#${ids[i]||'site-contact'}">${esc(label)}</a>`).join('')}</nav><a class="w-nav-cta" href="#site-contact">${esc(cta)} <span>↗</span></a><button class="w-menu" type="button" data-menu-toggle aria-expanded="false" aria-label="Ouvrir le menu">☰</button></header>`;
-  }
-  function siteArt(site, cls='w-art') {
-    return `<div class="${cls}"><img src="${artPath(site.id)}" alt="Illustration de ${esc(site.title)}" loading="eager"><span class="w-art-orbit"></span><span class="w-art-chip">${esc(site.category)}</span></div>`;
-  }
-  function btn(label, href='#site-contact', secondary=false, action='') {
-    return `<a class="w-btn ${secondary?'w-btn-secondary':''}" href="${href}" ${action?`data-action="${action}"`:''}>${esc(label)} <span aria-hidden="true">↗</span></a>`;
-  }
-  function intro(kicker,title,desc='') {
-    return `<div class="w-section-intro"><span class="w-kicker">${esc(kicker)}</span><h2>${title}</h2>${desc?`<p>${esc(desc)}</p>`:''}</div>`;
-  }
-  function statCards(items) {
-    return `<div class="w-stats">${items.map(([big,small])=>`<div class="w-stat"><strong>${esc(big)}</strong><span>${esc(small)}</span></div>`).join('')}</div>`;
-  }
-  function featureCards(items) {
-    const marks=['✦','↗','◈','◎','⌘','✳'];
-    return `<div class="w-feature-grid">${items.map((x,i)=>`<article class="w-feature-card"><span class="w-feature-mark">${marks[i%marks.length]}</span><h3>${esc(x[0])}</h3><p>${esc(x[1])}</p><a href="#site-contact" aria-label="En savoir plus sur ${esc(x[0])}">Explorer ↗</a></article>`).join('')}</div>`;
-  }
-  function projects(site) {
-    const entries=[['01','FinTrack','Dashboard & application'],['02','Forma','Branding & site web'],['03','Wellness','Mobile · lifestyle']];
-    return `<div class="w-project-grid">${entries.map((p,i)=>`<a href="#site-contact" class="w-project-card"><div class="w-project-visual project-tone-${i+1}"><div class="w-browser"><i></i><i></i><i></i></div><div class="w-mini-title">${esc(p[1])}</div><div class="w-mini-lines"><i></i><i></i><i></i></div><span class="w-project-num">${p[0]}</span></div><div class="w-project-meta"><span><strong>${esc(p[1])}</strong><small>${esc(p[2])}</small></span><b>↗</b></div></a>`).join('')}</div>`;
-  }
-  function contact(site, label='Let’s work together') {
-    return `<section class="w-contact" id="site-contact"><div><span class="w-kicker">Start a conversation</span><h2>${esc(label)}</h2><p>${esc(site.description)}</p><a class="w-email" href="mailto:hello@example.com">hello@example.com ↗</a></div><form class="w-contact-form"><label>Your name<input required name="name" placeholder="Alex Morgan"></label><label>Email address<input required type="email" name="email" placeholder="alex@email.com"></label><label>Tell me about your project<textarea name="message" rows="3" placeholder="A few words about your idea…"></textarea></label><button class="w-btn" type="submit">Send a message <span>↗</span></button></form></section>`;
-  }
-  function footer(site) {
-    return `<footer class="w-footer"><a class="w-brand" href="#site-top"><span class="w-brand-symbol">${esc(site.brand.slice(0,1))}</span>${esc(site.brand)}</a><span>© 2026 ${esc(site.brand)}. Made with intention.</span><a href="#site-top">Back to top ↑</a></footer>`;
-  }
-  function genericHero(site, opts={}) {
-    const top=opts.kicker || layoutLabels[site.layout] || site.category;
-    const copy=opts.copy || site.description;
-    const cta=opts.cta || 'Explore the work';
-    return `<section class="w-hero ${opts.className||''}" id="site-top"><div class="w-hero-copy"><span class="w-kicker"><i></i>${esc(top)}</span><h1>${titleMarkup(site)}</h1><p>${esc(copy)}</p><div class="w-hero-actions">${btn(cta,opts.href||'#site-work')}${opts.secondary?btn(opts.secondary,'#site-about',true):''}</div>${opts.note?`<div class="w-hero-note">${esc(opts.note)}</div>`:''}</div>${siteArt(site,opts.artClass||'w-art')}</section>`;
-  }
-  function renderPortfolio(site) {
-    return `<div class="w-site w-portfolio" style="${themeVars(site.theme)}">${nav(site,['About','Work','Services','Contact'],'Download CV')}${genericHero(site,{kicker:'Available for selected projects',cta:'View my work',secondary:'Download résumé',className:'portfolio-hero',note:'✦  Available for freelance projects'})}
-      <section class="w-band" id="site-about">${statCards([['6+','Years of experience'],['40+','Projects completed'],['18+','Happy clients'],['12','Countries reached']])}</section>
-      <section class="w-section" id="site-work">${intro('Featured work','Selected projects','A few recent collaborations built with clarity, character, and care.')}${projects(site)}</section>
-      <section class="w-section w-capabilities" id="site-services"><div>${intro('Core capabilities','Thoughtful design.\nUseful outcomes.','')}<p class="w-body-copy">${esc(site.description)}</p></div>${featureCards([['Digital design','Interfaces and identities shaped around people.'],['Web experiences','Responsive websites made to feel effortless.'],['Creative direction','A clear visual voice from first sketch to launch.'],['Prototyping','Test ideas early and refine what matters.']])}</section>
-      ${contact(site,'Have a good project? Let’s make it real.')}${footer(site)}</div>`;
-  }
-  function renderShop(site) {
-    const products=[['Everyday essential','$129','New'],['Studio edition','$89','Popular'],['Next generation','$159','Limited'],['Designed to move','$99','Best seller']];
-    return `<div class="w-site w-shop" style="${themeVars(site.theme)}"><div class="w-promo">Free shipping on orders over $100 <span>Discover the new collection ↗</span></div>${nav(site,['Shop','New arrivals','Collections','About'],'Shop now')}
-      ${genericHero(site,{kicker:'New season · designed to move',cta:'Shop the collection',secondary:'Explore details',className:'shop-hero',note:'Premium materials · Thoughtful design · Made to last'})}
-      <section class="w-benefits" id="site-about"><div>◈ <span><b>Free shipping</b><small>On orders over $100</small></span></div><div>◇ <span><b>Secure checkout</b><small>Protected from start to finish</small></span></div><div>↺ <span><b>Easy returns</b><small>30 days to find your fit</small></span></div><div>✳ <span><b>Made to last</b><small>Quality you can feel</small></span></div></section>
-      <section class="w-section" id="site-services">${intro('Find your style','Shop by category','Carefully selected pieces for every day.') }<div class="w-category-grid"><a href="#site-work" class="w-category cat-one"><span>01 / Essentials</span><b>Daily<br>wear</b><i>↗</i></a><a href="#site-work" class="w-category cat-two"><span>02 / Studio</span><b>New<br>arrivals</b><i>↗</i></a><a href="#site-work" class="w-category cat-three"><span>03 / Lifestyle</span><b>Accessories</b><i>↗</i></a></div></section>
-      <section class="w-section" id="site-work">${intro('The edit','Featured products','Considered details. Effortless forms. Built for the everyday.') }<div class="w-product-grid">${products.map((p,i)=>`<article class="w-product-card"><div class="w-product-image product-tone-${i+1}"><span class="w-product-tag">${p[2]}</span><div class="w-product-shape shape-${i+1}"></div><button type="button" class="w-heart" data-action="favorite" aria-label="Ajouter aux favoris">♡</button></div><div class="w-product-info"><div><b>${p[0]}</b><small>${i%2?'Designed for everyday':'Signature collection'}</small></div><strong>${p[1]}</strong></div><button class="w-add" type="button" data-action="add">Add to bag <span>+</span></button></article>`).join('')}</div></section>
-      <section class="w-banner"><div><span class="w-kicker">A better way to shop</span><h2>Good design<br>goes a long way.</h2><p>${esc(site.description)}</p>${btn('Explore the collection','#site-work')}</div><div class="w-banner-orb">✳</div></section>${contact(site,'Questions? We’re here to help.')}${footer(site)}</div>`;
-  }
-  function renderAgency(site) {
-    return `<div class="w-site w-agency" style="${themeVars(site.theme)}">${nav(site,['Home','Services','About','Work','Contact'],'Start a project')}${genericHero(site,{kicker:'Independent digital studio',cta:'Explore our services',secondary:'See selected work',className:'agency-hero',note:'Strategy · Design · Development'})}
-      <section class="w-logo-row"><span>Trusted by teams at</span><b>ACME</b><b>Northstar</b><b>Goodwell</b><b>Futura</b><b>Fieldnotes</b></section>
-      <section class="w-section" id="site-services">${intro('What we do','Ideas into experiences.','We partner with ambitious teams to make digital products feel clearer and work harder.')}${featureCards([['Digital strategy','Find the right problem, audience, and story.'],['Brand & identity','Build a distinctive visual language that lasts.'],['Web design','Make every interaction purposeful and easy.'],['Development','Ship fast, accessible, responsive experiences.']])}</section>
-      <section class="w-agency-about" id="site-about"><div class="w-about-art">${siteArt(site,'w-art w-art-small')}</div><div>${intro('A little about us','Small team.\nBig-picture thinking.','')}<p class="w-body-copy">${esc(site.description)} We bring strategy, craft, and technology together to create work that feels considered from the first click to the final detail.</p>${btn('Meet the studio','#site-contact',true)}</div></section>
-      <section class="w-section" id="site-work">${intro('Selected work','Built for what’s next.','A few projects that brought clarity to complex ideas.')}${projects(site)}</section>
-      <section class="w-process" id="site-process">${intro('Our approach','From first sketch to launch.','A calm, collaborative process that keeps the work moving.')}${['Discover','Define','Design','Develop','Deliver'].map((x,i)=>`<div class="w-process-step"><span>0${i+1}</span><b>${x}</b><small>${['Listen closely','Find the focus','Make it real','Build with care','Launch confidently'][i]}</small></div>`).join('')}</section>
-      ${contact(site,'Let’s build something useful.')}${footer(site)}</div>`;
-  }
-  function renderRealty(site) {
-    const homes=[['Ocean Breeze Villa','$910,000','3 beds · 2 baths'],['Oak House','$750,000','4 beds · 3 baths'],['Lakeside Cottage','$540,000','2 beds · 2 baths']];
-    return `<div class="w-site w-realty" style="${themeVars(site.theme)}">${nav(site,['Buy','Rent','Sell','Neighborhoods','About'],'Get in touch')}
-      <section class="w-realty-hero" id="site-top" style="--hero-art:url('${artPath(site.id)}')"><div class="w-realty-copy"><span class="w-kicker"><i></i>Find a place to call home</span><h1>${titleMarkup(site)}</h1><p>${esc(site.description)}</p><a class="w-btn" href="#site-work">Browse homes <span>↗</span></a></div><div class="w-search-panel" id="site-search"><label>Location<input placeholder="City, neighborhood, ZIP"></label><label>Property type<select><option>Any type</option><option>House</option><option>Apartment</option></select></label><label>Price range<select><option>Any price</option><option>$300k – $700k</option><option>$700k+</option></select></label><button type="button" class="w-search-btn" data-action="search">Search homes ↗</button></div></section>
-      <section class="w-section" id="site-work">${intro('The shortlist','Featured homes','Thoughtful homes in places you’ll love to live.') }<div class="w-listing-grid">${homes.map((h,i)=>`<article class="w-listing-card"><div class="w-listing-image listing-${i+1}"><span>For sale</span><button data-action="favorite" type="button" aria-label="Save listing">♡</button><div class="w-house-shape"><i></i><i></i><i></i></div></div><div class="w-listing-body"><strong>${h[0]}</strong><p>${h[2]}</p><b>${h[1]}</b></div></article>`).join('')}</div></section>
-      <section class="w-realty-about" id="site-about"><div><span class="w-kicker">Your next chapter</span><h2>Find the right place.<br>Feel at home.</h2><p>${esc(site.description)}</p>${btn('Talk to an advisor','#site-contact')}</div><div class="w-realty-stats">${statCards([['1,200+','Homes listed'],['98%','Client satisfaction'],['24/7','Local guidance']])}</div></section>${contact(site,'Ready when you are.')}${footer(site)}</div>`;
-  }
-  function renderFood(site) {
-    const dishes=[['House special','14.90'],['Crispy favorite','12.50'],['Fresh & bright','11.90'],['Something sweet','7.50']];
-    return `<div class="w-site w-food" style="${themeVars(site.theme)}"><div class="w-food-top">Made fresh every day · Open today 11:00–22:00</div>${nav(site,['Menu','Our story','Locations','Contact'],'Order now')}
-      ${genericHero(site,{kicker:'Fresh ingredients · made with love',cta:'View the menu',secondary:'Our story',className:'food-hero',note:'Dine in · Take away · Delivery'})}
-      <section class="w-food-values" id="site-about"><div><span>♧</span><b>Fresh daily</b><small>Local ingredients</small></div><div><span>✳</span><b>Made to order</b><small>Never rushed</small></div><div><span>♡</span><b>Good company</b><small>Always welcome</small></div></section>
-      <section class="w-section" id="site-services">${intro('A little something for everyone','Explore the menu','Comfort food, bright flavors, and a few things worth sharing.') }<div class="w-food-tabs"><button class="active" data-food-filter="all">All menu</button><button data-food-filter="main">Mains</button><button data-food-filter="side">Sides</button><button data-food-filter="sweet">Something sweet</button></div><div class="w-dish-grid">${dishes.map((d,i)=>`<article class="w-dish-card" data-food-kind="${i===3?'sweet':i===2?'side':'main'}"><div class="w-dish-art dish-${i+1}"><span>${['✦','◒','❋','●'][i]}</span></div><div class="w-dish-copy"><small>GUEST FAVORITE</small><b>${d[0]}</b><p>Thoughtfully prepared with fresh ingredients and a little extra care.</p><div><strong>$${d[1]}</strong><button data-action="add" type="button" aria-label="Add ${d[0]}">＋</button></div></div></article>`).join('')}</div></section>
-      <section class="w-food-story"><div>${siteArt(site,'w-art w-art-food')}</div><div><span class="w-kicker">A table for everyone</span><h2>Good food.<br>Good company.</h2><p>${esc(site.description)}</p>${btn('Reserve a table','#site-contact')}</div></section>
-      ${contact(site,'Come hungry. Leave happy.')}${footer(site)}</div>`;
-  }
-  function dashboardMockup(site, appName='Overview') {
-    return `<div class="w-dashboard"><aside class="w-dash-side"><b class="w-dash-logo"><i></i>${esc(site.brand)}</b><span class="selected">▦ &nbsp; ${esc(appName)}</span><span>◫ &nbsp; Projects</span><span>◷ &nbsp; Schedule</span><span>◎ &nbsp; Reports</span><span>⚙ &nbsp; Settings</span><div class="w-dash-avatar">AM <small>Alex Morgan</small></div></aside><div class="w-dash-main"><div class="w-dash-top"><div><small>MONDAY, MAY 20</small><h3>Good morning, Alex <span>✦</span></h3></div><button type="button" data-action="notify">＋ New task</button></div><div class="w-dash-stats"><div><small>Active projects</small><b>12</b><i>↑ 8.4%</i></div><div><small>Tasks completed</small><b>84%</b><i>↑ 12.1%</i></div><div><small>Team members</small><b>08</b><i>On track</i></div></div><div class="w-dash-columns"><div class="w-dash-chart"><div class="w-card-heading"><b>Weekly activity</b><small>Last 7 days⌄</small></div><div class="w-chart-bars">${[42,61,47,78,57,92,69,84,55,73,98,67].map((h,i)=>`<i style="--bar:${h}%;--n:${i}"></i>`).join('')}</div><div class="w-chart-labels"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></div></div><div class="w-dash-tasks"><div class="w-card-heading"><b>Today’s tasks</b><a href="#site-work">View all</a></div>${['Review campaign direction','Share prototype with team','Finalize launch checklist'].map((x,i)=>`<label class="w-task"><input type="checkbox"><span>${x}<small>${['09:30','11:00','14:30'][i]}</small></span></label>`).join('')}</div></div></div></div>`;
-  }
-  function renderSaaS(site) {
-    return `<div class="w-site w-saas" style="${themeVars(site.theme)}">${nav(site,['Platform','Solutions','Resources','Pricing'],'Get started')}${genericHero(site,{kicker:'A simpler way to work',cta:'Start for free',secondary:'See how it works',className:'saas-hero',note:'No credit card required · Set up in minutes'})}
-      <section class="w-logo-row"><span>Teams use ${esc(site.brand)} to do their best work</span><b>Notion</b><b>Linear</b><b>Figma</b><b>Slack</b><b>Atlassian</b></section>
-      <section class="w-section" id="site-services">${intro('Everything in one place','The tools to move you forward.','Clear priorities, less busywork, and a better view of what comes next.')}${featureCards([['Bring work together','Keep projects, people, and decisions connected.'],['Make progress visible','See what’s moving and what needs your attention.'],['Work at your pace','Flexible tools that fit the way your team thinks.'],['Stay focused','Simple workflows help good ideas become done.']])}</section>
-      <section class="w-dashboard-section" id="site-work"><div class="w-dashboard-copy">${intro('A clearer picture','Your work, at a glance.','Keep every important update in view without losing focus.')}</div>${dashboardMockup(site,site.layout==='planner'?'My workspace':'Overview')}</section>
-      <section class="w-steps">${intro('How it works','Set up in three easy steps.','')}<div class="w-step-grid">${[['01','Add your team','Invite your people and bring work together.'],['02','Shape your workflow','Choose the tools that suit your rhythm.'],['03','Make progress','Keep the next best action in view.']].map(x=>`<article><span>${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p></article>`).join('')}</div></section>${contact(site,'Make work feel lighter.')}${footer(site)}</div>`;
-  }
-  function renderFintech(site) {
-    return `<div class="w-site w-fintech" style="${themeVars(site.theme)}">${nav(site,['Personal','Business','Security','About'],'Open an account')}${genericHero(site,{kicker:'Your money, moving with you',cta:'Get started',secondary:'Explore the app',className:'fintech-hero',note:'Fast transfers · Clear fees · Secure by design'})}
-      <section class="w-money-card-section" id="site-work"><div class="w-money-card"><span>${esc(site.brand)}</span><b>•••• &nbsp; •••• &nbsp; •••• &nbsp; 2048</b><small>Everyday account</small><strong>$ 12,480.50</strong><i>VISA</i></div><div class="w-money-copy"><span class="w-kicker">Money on your terms</span><h2>Everything you need.<br>Nothing you don’t.</h2><p>${esc(site.description)}</p>${btn('Get the app','#site-contact')}</div></section>
-      <section class="w-section" id="site-services">${intro('Built around you','Money made more simple.','A flexible, secure way to manage everyday payments.')}${featureCards([['Send in seconds','Move money quickly, wherever the day takes you.'],['Know what you spend','Clear activity and useful insights at a glance.'],['Stay protected','Smart security tools look out for every transaction.']])}</section>
-      <section class="w-finance-stats">${statCards([['2M+','Happy customers'],['30+','Countries supported'],['24/7','Always-on protection']])}</section>${contact(site,'A better way to move money.')}${footer(site)}</div>`;
-  }
-  function renderFoundation(site) {
-    return `<div class="w-site w-foundation" style="${themeVars(site.theme)}">${nav(site,['Home','Athletes','Selection process','Programs','Gallery'],'Donate')}
-      <section class="w-foundation-hero" id="site-top"><div class="w-foundation-shape"></div><div class="w-foundation-copy"><span class="w-kicker">Believe in the power of sport</span><h1>${titleMarkup(site)}</h1><p>${esc(site.description)}</p><div class="w-hero-actions">${btn('Selection process','#site-work')}${btn('Athlete development program','#site-services',true)}</div></div>${siteArt(site,'w-art w-foundation-art')}<div class="w-foundation-caption"><b>18+</b><span>Years building<br>champions</span></div></section>
-      <section class="w-section" id="site-about">${intro('Our mission','Every champion starts somewhere.','We create pathways for young athletes through opportunity, mentorship, and world-class training.')}${featureCards([['Find your path','Explore a sport and discover what you can become.'],['Learn from the best','Get guidance from coaches and athletes who care.'],['Build your future','Grow with a community that believes in you.'],['Give back','Help more young people step onto the field.']])}</section>
-      <section class="w-section" id="site-work">${intro('Meet the champions','Stories that inspire.','A closer look at the people who make the journey matter.')}${projects(site)}</section>
-      <section class="w-foundation-program" id="site-services"><div><span class="w-kicker">Athlete development program</span><h2>Talent deserves<br>the right support.</h2><p>${esc(site.description)}</p>${btn('Join the program','#site-contact')}</div><div class="w-foundation-badge">✦<small>PLAY<br>WITH<br>PURPOSE</small></div></section>
-      <section class="w-logo-row"><span>Partners in possibility</span><b>Walmart</b><b>Cooper</b><b>PayPal</b><b>Johnson</b><b>ALSO</b></section>${contact(site,'Help a future champion rise.')}${footer(site)}</div>`;
-  }
-  function renderEvent(site) {
-    const schedule=[['09:00','Opening session','The next wave of digital experiences'],['11:30','Designing for change','Building products with purpose'],['14:00','Future in motion','A new creative landscape'],['16:30','Closing keynote','What we make possible together']];
-    return `<div class="w-site w-event" style="${themeVars(site.theme)}">${nav(site,['Speakers','Schedule','Venue','FAQ'],'Get tickets')}${genericHero(site,{kicker:'A gathering for curious minds',cta:'Get your ticket',secondary:'View the schedule',className:'event-hero',note:'LIVE · MAY 20–22 · COTONOU / ONLINE'})}
-      <section class="w-countdown">${[['02','DAYS'],['18','HOURS'],['42','MINUTES'],['09','SECONDS']].map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</section>
-      <section class="w-event-schedule" id="site-work">${intro('Three days. New perspectives.','The moments that matter.','A carefully curated program for the ideas shaping what comes next.') }<div class="w-schedule-list">${schedule.map(x=>`<article><time>${x[0]}</time><div><small>MAIN STAGE · KEYNOTE</small><h3>${x[1]}</h3><p>${x[2]}</p></div><a href="#site-contact">↗</a></article>`).join('')}</div></section>
-      <section class="w-section" id="site-services">${intro('Meet the voices','People worth listening to.','Designers, founders, and makers who are pushing things forward.')}${featureCards([['Maya Laurent','Creative director · Studio North'],['Jonas Adeyemi','Founder · Future Works'],['Sana Okafor','Product designer · Atlas'],['Theo Martin','Independent artist · Paris']])}</section><section class="w-event-cta" id="site-about"><span class="w-kicker">Be in the room</span><h2>Good ideas happen<br>when we meet.</h2>${btn('Reserve your place','#site-contact')}</section>${contact(site,'Join the conversation.')}${footer(site)}</div>`;
-  }
-  function renderFeature(site) {
-    const cards=[['Dynamic shapes','Flexible motion and forms make every detail feel alive.','△'],['Vibrant colors','A confident palette built to stand out and stay clear.','◉'],['Bold typography','Modern type gives every message room to breathe.','A']];
-    return `<div class="w-site w-feature" style="${themeVars(site.theme)}">${nav(site,['Features','Capabilities','About','Contact'],'Discover more')}
-      ${genericHero(site,{kicker:'A new way to build online',cta:'Explore the concept',secondary:'See the details',className:'feature-hero',note:'Designed to move · Built to stand out'})}
-      <section class="w-feature-showcase" id="site-work">${intro('Made for the curious','A little more than expected.','A considered set of tools and ideas for a more expressive web.') }<div class="w-feature-panels">${cards.map((c,i)=>`<article class="w-feature-panel panel-${i+1}"><span class="w-kicker">FEATURE 0${i+1}</span><div class="w-feature-illustration illustration-${i+1}">${c[2]}</div><h3>${c[0]}</h3><p>${c[1]}</p></article>`).join('')}</div></section>
-      <section class="w-feature-cta" id="site-services"><div><span class="w-kicker">Create something memorable</span><h2>Make space<br>for a new idea.</h2><p>${esc(site.description)}</p>${btn('Discover more','#site-contact')}</div>${siteArt(site,'w-art w-art-feature')}</section>${contact(site,'Let’s create something.')}${footer(site)}</div>`;
-  }
-  function renderNFT(site) {
-    const collections=[['Future Forms','7.4 ETH','01'],['Soft Systems','4.8 ETH','02'],['New Icons','3.2 ETH','03']];
-    return `<div class="w-site w-nft" style="${themeVars(site.theme)}">${nav(site,['Explore','Collections','Creators','About'],'Connect wallet')}${genericHero(site,{kicker:'Digital art · collected differently',cta:'Explore collection',secondary:'How it works',className:'nft-hero',note:'Curated drops · Verified creators · Made for collectors'})}
-      <section class="w-nft-ticker"><span>✦ DIGITAL ART</span><span>✦ CULTURE</span><span>✦ COMMUNITY</span><span>✦ DIGITAL ART</span></section>
-      <section class="w-section" id="site-work">${intro('Freshly collected','Top collections','Discover work from independent creators and emerging studios.') }<div class="w-nft-grid">${collections.map((x,i)=>`<article class="w-nft-card"><div class="w-nft-art nft-art-${i+1}"><span>✦</span><small>EDITION ${x[2]}</small></div><div><b>${x[0]}</b><small>Floor price <strong>${x[1]}</strong></small></div><a href="#site-contact">View collection ↗</a></article>`).join('')}</div></section>
-      <section class="w-nft-how" id="site-services">${intro('Start collecting','Three steps to your next favorite.','')}<div class="w-step-grid">${[['01','Connect your wallet','Bring your collection into one secure place.'],['02','Discover artists','Find work that speaks to you.'],['03','Collect with confidence','Every piece has a story and a creator.']].map(x=>`<article><span>${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p></article>`).join('')}</div></section>${contact(site,'Make room for great art.')}${footer(site)}</div>`;
-  }
-  function renderIndustrial(site) {
-    return `<div class="w-site w-industrial" style="${themeVars(site.theme)}">${nav(site,['Services','Materials','Industries','About','Contact'],'Get a quote')}${genericHero(site,{kicker:'Precision manufacturing · built to deliver',cta:'Get an instant quote',secondary:'Explore services',className:'industrial-hero',note:'Fast turnaround · 15+ materials · Quality guaranteed'})}
-      <section class="w-industrial-stats">${statCards([['500+','Projects completed'],['15+','Material options'],['99.8%','Print accuracy']])}</section>
-      <section class="w-section" id="site-services">${intro('Our capabilities','Everything you need,\nprinted to perfection.','From rapid prototypes to production-ready parts, made to your exact specifications.')}
-        <div class="w-service-list">${['FDM printing','SLA resin printing','SLS nylon printing','Rapid prototyping','Custom part production'].map((x,i)=>`<a href="#site-contact"><span>0${i+1}</span><b>${x}</b><small>Materials · finish · delivery</small><i>↗</i></a>`).join('')}</div>
-      </section><section class="w-industrial-banner" id="site-about"><div><span class="w-kicker">Engineering the future</span><h2>One precise layer<br>at a time.</h2><p>${esc(site.description)}</p>${btn('Talk to an engineer','#site-contact')}</div><div class="w-blueprint">${siteArt(site,'w-art w-art-blueprint')}</div></section>${contact(site,'Ready to make it real?')}${footer(site)}</div>`;
-  }
-  function renderCourse(site) {
-    const weeks=[['01','Composition','Build a strong foundation in visual storytelling.'],['02','Modeling & texturing','Create shape, surface, and material with intention.'],['03','Animation','Bring your ideas to life with expressive motion.'],['04','Camera & lights','Set the scene and make every frame count.']];
-    return `<div class="w-site w-course" style="${themeVars(site.theme)}">${nav(site,['Courses','Tutorials','Podcast','About'],'Enroll now')}${genericHero(site,{kicker:'Next course starts · July 2026',cta:'View the curriculum',secondary:'Meet the instructor',className:'course-hero',note:'Beginner friendly · Project based · 4 weeks'})}
-      <section class="w-course-weeks" id="site-work">${weeks.map(x=>`<article><span>WEEK ${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><a href="#site-services">Explore module ↗</a></article>`).join('')}</section>
-      <section class="w-course-detail" id="site-services"><div class="w-course-visual"><span>QX</span><i>◈</i><b>DESIGN<br>IN 3D</b></div><div>${intro('What you’ll learn','Make your ideas<br>feel tangible.','A practical course built around the tools and techniques used by working artists.')}${featureCards([['Model with confidence','Create clean forms from a simple blockout.'],['Light every scene','Use light to build depth and atmosphere.'],['Tell a story','Turn a still image into a compelling moment.']])}</div></section>${contact(site,'Ready to make your first scene?')}${footer(site)}</div>`;
-  }
-  function renderCharacter(site) {
-    return `<div class="w-site w-character" style="${themeVars(site.theme)}">${nav(site,['Home','Characters','Help'],'Join the guild')}
-      <section class="w-character-hero" id="site-top"><div class="w-character-copy"><span class="w-kicker">Hunter profile · Rank S</span><h1>${titleMarkup(site)}</h1><p>${esc(site.description)}</p><div class="w-character-actions">${btn('View abilities','#site-services')}${btn('All characters','#site-work',true)}</div></div>${siteArt(site,'w-art w-character-art')}<aside class="w-character-panel"><span>PROFILE</span><b>RANK <strong>S</strong></b><p>Level 99</p><p>Shadow hunter</p><div class="w-power"><small>POWER</small><strong>9,850</strong></div></aside></section>
-      <section class="w-character-stats" id="site-about">${statCards([['S','Rank'],['99','Level'],['7','Abilities'],['∞','Potential']])}</section>
-      <section class="w-section" id="site-services">${intro('Skills & abilities','A force of nature.','Choose a path, build your strength, and discover what lies beyond the gate.')}${featureCards([['Shadow extraction','Raise fallen enemies as loyal shadows.'],['Dagger mastery','Move fast and strike with precision.'],['Stealth','Disappear before the danger arrives.'],['Limit break','Unlock a stronger form under pressure.']])}</section>
-      <section class="w-section" id="site-work">${intro('The hunter archive','Other profiles to discover','')}${projects(site)}</section>${footer(site)}</div>`;
-  }
-  function renderPlanner(site) {
-    return `<div class="w-site w-planner" style="${themeVars(site.theme)}">${nav(site,['Product','Solutions','Resources','Pricing'],'Get started')}${genericHero(site,{kicker:'A little progress, every day',cta:'Get started for free',secondary:'See the app',className:'planner-hero',note:'Plan with intention · Celebrate the small wins'})}
-      <section class="w-planner-stats">${statCards([['5+','Years of focus'],['50+','Ways to organize'],['100%','Made for your rhythm']])}</section>
-      <section class="w-section" id="site-services">${intro('Less overwhelm, more momentum','Everything you need to keep moving.','A calm home for your tasks, goals, and good ideas.')}${featureCards([['Plan your day','See your priorities clearly and start with one thing.'],['Track your progress','Make the small wins visible along the way.'],['Build a rhythm','Create routines that work for real life.']])}</section>
-      <section class="w-planner-demo" id="site-work"><div class="w-planner-demo-copy"><span class="w-kicker">A closer look</span><h2>Your day,<br>with a little more space.</h2><p>Keep your tasks in view without letting them take over.</p></div>${dashboardMockup(site,'My day')}</section>${contact(site,'Let’s make today a good one.')}${footer(site)}</div>`;
+  const site = [
+    {kind:"saas",theme:"violet",brand:"Tidy",headline:"One Task at a Time",eyebrow:"A calmer way to work",lead:"Celebrate the joy of getting things done. Plan your day, stay focused and see your progress in one place.",cta:"Get started",second:"See how it works"},
+    {kind:"saas",theme:"lime",brand:"KySee.ai",headline:"A Smart Product QC Checking",eyebrow:"Intelligent quality control",lead:"Streamline your process with reliable, real-time inspections and smart quality checks built for modern teams.",cta:"Get started",second:"Watch video"},
+    {kind:"store",theme:"black",brand:"NEW BALANCE",headline:"Make room for what’s next.",eyebrow:"New season · New energy",lead:"Discover the latest running shoes, designed for a comfortable stride and a little more distance.",cta:"Shop new arrivals",second:"Explore the collection"},
+    {kind:"agency",theme:"orange",brand:"Pixel Point",headline:"Professional Website Design & Development",eyebrow:"Complete digital solutions",lead:"Modern, responsive and results-driven websites designed to help your business move forward.",cta:"Start a project",second:"View our work"},
+    {kind:"store",theme:"black",brand:"PORSCHE",headline:"Drive the extraordinary.",eyebrow:"Performance · Precision · Porsche",lead:"Discover the machine built around the feeling of the open road.",cta:"Explore the model",second:"Configure yours"},
+    {kind:"store",theme:"blue",brand:"NovaTrend",headline:"Discover Products You’ll Love",eyebrow:"Trending now",lead:"Shop the latest products, curated for modern lifestyles and everyday moments.",cta:"Shop now",second:"Explore collection"},
+    {kind:"agency",theme:"deepblue",brand:"APEX SOLUTIONS",headline:"Innovate. Transform. Thrive.",eyebrow:"Technology that moves you forward",lead:"We turn ambitious ideas into dependable digital products, intelligent systems and lasting growth.",cta:"Explore our services",second:"Meet the team"},
+    {kind:"saas",theme:"black",brand:"TECTON",headline:"Redefining the boundaries of human capability",eyebrow:"Technology · intelligence · impact",lead:"We build thoughtful AI systems to help people solve complex problems with confidence.",cta:"Get started now",second:"Discover the platform"},
+    {kind:"industry",theme:"orange",brand:"Fabrica",headline:"Precision 3D Printing",eyebrow:"Industrial additive tech",lead:"From rapid prototypes to end-use parts, make complex ideas real with reliable 3D printing.",cta:"Get an instant quote",second:"Explore services"},
+    {kind:"portfolio",theme:"black",brand:"AV / DIGITAL",headline:"DIGITAL DESIGNER",eyebrow:"Available for select projects",lead:"I design elegant, high-performing digital experiences that merge strategy, aesthetics and technology.",cta:"View my work",second:"Download résumé"},
+    {kind:"estate",theme:"green",brand:"Pools",headline:"Find Eco-Friendly Homes Easily",eyebrow:"Find your home",lead:"Discover thoughtfully designed homes and sustainable places to live, made for a better everyday.",cta:"Browse homes",second:"How it works"},
+    {kind:"fintech",theme:"blue",brand:"COINFEVER",headline:"Send your crypto in a new way.",eyebrow:"A better way to pay",lead:"Get an ultimate crypto card and payment solution. Move with confidence and keep your keys in control.",cta:"Join the waitlist",second:"Learn more"},
+    {kind:"estate",theme:"deepblue",brand:"Rent & U",headline:"Finding Your New Home Is Simple",eyebrow:"Your next chapter starts here",lead:"Browse homes in the places you love, compare the details and find a space that feels like yours.",cta:"Search homes",second:"See how it works"},
+    {kind:"portfolio",theme:"slate",brand:"JASON MARTIN",headline:"Graphic Designer",eyebrow:"Independent creative · San Francisco",lead:"I craft visual identities and digital experiences with clarity, character and a strong sense of purpose.",cta:"Explore portfolio",second:"Download résumé"},
+    {kind:"estate",theme:"rose",brand:"Awesome Us",headline:"Make it easy for everyone to invest in real estate",eyebrow:"Invest together",lead:"Build a more considered property portfolio with clear projects, transparent returns and simple steps.",cta:"See projects",second:"How it works"},
+    {kind:"event",theme:"blue",brand:"Virat Kohli Foundation",headline:"Never say never — limits are often just an illusion.",eyebrow:"Champions · Community · Change",lead:"Meet the people redefining what’s possible, and discover programs creating opportunity for the next generation.",cta:"Explore the program",second:"Meet our champions"},
+    {kind:"restaurant",theme:"black",brand:"PITTU PITTU",headline:"Burger Spiesz",eyebrow:"Fresh from our kitchen",lead:"A generous burger, crisp greens and a little heat. Made fresh and ready when you are.",cta:"Order now",second:"View the menu"},
+    {kind:"editorial",theme:"slate",brand:"WEB CONTENT",headline:"Website Content Creation",eyebrow:"Publish with purpose",lead:"Create engaging content for your website. Bring your ideas into focus with a clear editorial process.",cta:"Get started",second:"Discover our tools"},
+    {kind:"fintech",theme:"black",brand:"exactly bar",headline:"Experience the Future of Payments",eyebrow:"Flexible payment processing",lead:"Simple, personalised and secure payment solutions for teams ready to grow.",cta:"Book a meeting",second:"Discover more"},
+    {kind:"agency",theme:"slate",brand:"APEX SOLUTIONS",headline:"Driving innovation through technology",eyebrow:"Your partner for what’s next",lead:"We combine strategy, engineering and design to build services that make a measurable difference.",cta:"Get a free consultation",second:"Explore solutions"},
+    {kind:"feature",theme:"cyan",brand:"Surface",headline:"Our services",eyebrow:"A clearer view of your work",lead:"Bring your projects together in one calm, flexible workspace built for focus and momentum.",cta:"Explore features",second:"Start exploring"},
+    {kind:"agency",theme:"blue",brand:"Hotch",headline:"Grow Your Business Online",eyebrow:"A digital partner for ambitious teams",lead:"Build a stronger online presence with considered design, smart development and support that lasts.",cta:"Get started",second:"View services"},
+    {kind:"web3",theme:"black",brand:"CYFONI",headline:"Collect Next Generation NFTs Today",eyebrow:"A new home for digital art",lead:"Discover original collections, meet artists and make your next great find on-chain.",cta:"Explore collections",second:"How it works"},
+    {kind:"feature",theme:"rose",brand:"LOGOHERO",headline:"Create Beautiful Website",eyebrow:"A flexible creative toolkit",lead:"Build, shape and refine the digital home for your next big idea.",cta:"Get started",second:"Explore features"},
+    {kind:"portfolio",theme:"black",brand:"LOVRO PODNIK",headline:"Unlimited Digital Design",eyebrow:"Design subscription · made simple",lead:"Design support for your business with a clear process, thoughtful craft and room to evolve.",cta:"Make your ideas happen",second:"See the process"},
+    {kind:"agency",theme:"blue",brand:"Byteaxe",headline:"Make Your Future Better.",eyebrow:"Digital experiences that inspire",lead:"We partner with ambitious teams to design, build and grow meaningful digital products.",cta:"Let’s work together",second:"Explore services"},
+    {kind:"portfolio",theme:"black",brand:"QualiCode",headline:"Hi, I’m QualiCode",eyebrow:"Web developer · creative technologist",lead:"I build useful, accessible experiences with a focus on craft, clarity and thoughtful motion.",cta:"Contact me",second:"Explore my work"},
+    {kind:"feature",theme:"deepblue",brand:"SURFACE",headline:"Dynamic Shapes · Vibrant Colors · Bold Typography",eyebrow:"A design system with personality",lead:"Flexible, animated forms, lively color and confident type help every message feel clear.",cta:"Discover more",second:"Explore the system"},
+    {kind:"saas",theme:"rose",brand:"Clayful",headline:"Crafted with Care",eyebrow:"Ideas · tasks · better days",lead:"Stay organised, boost productivity and bring your ideas to life with a workspace made for people.",cta:"Get started",second:"Explore the features"},
+    {kind:"agency",theme:"violet",brand:"Studio Pley",headline:"Studio Pley Studio",eyebrow:"A creative room for bright ideas",lead:"We shape digital worlds, visual systems and experiences that stay with you.",cta:"Discover our work",second:"Meet the studio"},
+    {kind:"portfolio",theme:"black",brand:"OualiCode",headline:"Hi, I’m OualiCode",eyebrow:"Frontend developer · creative builder",lead:"I build modern interfaces and digital products with care, curiosity and clean code.",cta:"Contact me",second:"View projects"},
+    {kind:"store",theme:"cream",brand:"FONTAIN — ES 2024",headline:"A wardrobe with a point of view.",eyebrow:"The new season",lead:"Thoughtful everyday pieces, easy layers and modern essentials made to stay in rotation.",cta:"Explore the collection",second:"Shop the edit"},
+    {kind:"industry",theme:"blue",brand:"3DPRINT",headline:"Explore the World of 3D Printing",eyebrow:"Make ideas tangible",lead:"Discover practical, precise 3D printing products and tools made for creators and makers.",cta:"Shop now",second:"View collections"},
+    {kind:"editorial",theme:"lime",brand:"CHARACTER FILES",headline:"Character profiles",eyebrow:"The world of hunters",lead:"Explore the stories, abilities and relationships behind the characters you know.",cta:"Explore characters",second:"View rankings"},
+    {kind:"event",theme:"purple",brand:"Enter the Metaverse",headline:"Explore the future of the Metaverse",eyebrow:"2nd–3rd December · Online",lead:"Meet the builders and thinkers shaping what comes next across virtual worlds and digital culture.",cta:"Buy tickets",second:"View the schedule"},
+    {kind:"feature",theme:"purple",brand:"FEATURE",headline:"Create a Website",eyebrow:"A better way to build online",lead:"Use a complete creative toolkit to build, refine and personalise your next website.",cta:"Get started",second:"See how it works"},
+    {kind:"portfolio",theme:"black",brand:"THEPRO",headline:"I am a Developer",eyebrow:"Visual designer · web developer",lead:"I make complex ideas feel simple through expressive design and useful digital experiences.",cta:"Contact me",second:"View résumé"},
+    {kind:"portfolio",theme:"deepblue",brand:"ABDULLAH TARIQ",headline:"I build digital experiences that matter.",eyebrow:"Software developer",lead:"I turn ideas into scalable, beautiful and useful web applications for people and teams.",cta:"View my work",second:"Let’s talk"},
+    {kind:"restaurant",theme:"green",brand:"Лист & Зёрна",headline:"Кофе, в который влюбляешься с первого глотка",eyebrow:"Спешелти кофе · свежая выпечка",lead:"Свежая обжарка, уютная атмосфера и любимые десерты — заходите в гости каждый день.",cta:"Смотреть меню",second:"Заказать столик"},
+    {kind:"fintech",theme:"purple",brand:"Payze",headline:"Send, Receive, Top-Up Your Money Easily",eyebrow:"Feel the convenience",lead:"A simple way to manage payments, send money and stay in control wherever life takes you.",cta:"Download the app",second:"Learn more"},
+    {kind:"restaurant",theme:"black",brand:"PITTU PITTU",headline:"Burger Spiesz",eyebrow:"Big flavour · fresh ingredients",lead:"Find your favourite burger, build a meal and order it fresh from our kitchen.",cta:"Order online",second:"Explore the menu"},
+    {kind:"web3",theme:"cyan",brand:"Flacto",headline:"Collect Extraordinary Art & NFTs",eyebrow:"Marketplace for digital makers",lead:"Discover the next generation of digital art, collect original work and connect with creators.",cta:"Explore art",second:"Meet the artists"},
+    {kind:"agency",theme:"cyan",brand:"COMATIS",headline:"Innovate. Elevate. Transform.",eyebrow:"Digital solutions for tomorrow",lead:"We help businesses unlock their next chapter with cloud, data and intelligent technology.",cta:"Explore solutions",second:"Talk to our team"},
+    {kind:"agency",theme:"slate",brand:"APEX SOLUTIONS",headline:"Driving innovation through technology",eyebrow:"Strategy · engineering · growth",lead:"A trusted team for ambitious organisations ready to turn new ideas into lasting progress.",cta:"Get free consultation",second:"Our services"},
+    {kind:"store",theme:"black",brand:"techgear",headline:"New arrivals",eyebrow:"Gear that moves you",lead:"Find high-performance gear for gaming, creative work and everything in between.",cta:"Shop now",second:"Explore the range"},
+    {kind:"portfolio",theme:"purple",brand:"FRANCESCA LUPI",headline:"PORTFOLIO · 3D ARTIST",eyebrow:"3D modeling · shading · lighting",lead:"A collection of playful worlds, considered materials and carefully composed digital objects.",cta:"Explore the portfolio",second:"Contact me"},
+    {kind:"fintech",theme:"purple",brand:"Payze",headline:"Send, Receive, Top-Up Your Money Easily",eyebrow:"Feel the convenience",lead:"One clear app for daily payments, transfers and the little things that keep life moving.",cta:"Download the app",second:"Explore features"},
+    {kind:"store",theme:"blue",brand:"Example",headline:"Future Technology Today.",eyebrow:"New launch · smart essentials",lead:"Explore the latest devices and everyday technology, curated for the way you live and work.",cta:"Shop now",second:"Watch the film"},
+    {kind:"feature",theme:"deepblue",brand:"3D STUDIO",headline:"Make Your Website Stand Out in 3D",eyebrow:"Custom isometric illustration",lead:"Distinctive, layered visuals for digital brands, web headers, landing pages and campaigns.",cta:"Explore the work",second:"See the process"},
+    {kind:"saas",theme:"lime",brand:"KySee.ai",headline:"A Smart Product QC Checking",eyebrow:"Get started",lead:"Make product inspection faster, clearer and more consistent with intelligent quality tools.",cta:"Get started",second:"Watch video"},
+    {kind:"feature",theme:"deepblue",brand:"FEATURE LAB",headline:"Dynamic Shapes. Vibrant Colors.",eyebrow:"Three ideas, one bold system",lead:"Flexible forms, eye-catching color and confident type bring digital products to life.",cta:"Discover more",second:"Explore features"},
+    {kind:"course",theme:"slate",brand:"QX ACADEMY",headline:"Beginner’s Guide to Cinema 4D",eyebrow:"Next course starts · 01 July 2026",lead:"Learn composition, modeling, animation and lighting in a clear, practical creative program.",cta:"Join the course",second:"View curriculum"},
+    {kind:"saas",theme:"black",brand:"TECTON",headline:"Technology that moves us forward.",eyebrow:"AI · automation · insight",lead:"Thoughtful artificial intelligence for teams building a smarter, more capable future.",cta:"Get started now",second:"Explore solutions"},
+    {kind:"agency",theme:"cyan",brand:"HYKROX",headline:"We Are Creative Designers",eyebrow:"Creative design studio",lead:"We build distinct identities and thoughtful digital experiences for modern brands.",cta:"Let’s talk",second:"See our services"},
+    {kind:"portfolio",theme:"violet",brand:"Navia",headline:"Hi, I’m Navia.",eyebrow:"Frontend developer · React",lead:"I build modern, responsive interfaces and thoughtful web products. Explore my certifications, skills and selected projects.",cta:"View projects",second:"Hire me"},
+    {kind:"portfolio",theme:"black",brand:"AV STUDIO",headline:"DIGITAL DESIGNER",eyebrow:"Independent designer · available for select projects",lead:"I create memorable brand and digital experiences through clear strategy and bold visual storytelling.",cta:"View my work",second:"Get in touch"}
+  ];
+
+  const navByKind = {
+    saas: ["Product", "Features", "Stories", "Pricing"],
+    store: ["Shop", "New arrivals", "Collections", "About"],
+    agency: ["Services", "Work", "About", "Contact"],
+    industry: ["Services", "Materials", "Projects", "Contact"],
+    portfolio: ["Work", "Capabilities", "About", "Contact"],
+    estate: ["Buy", "Rent", "Explore", "About"],
+    fintech: ["Product", "Benefits", "Security", "Company"],
+    restaurant: ["Menu", "Our story", "Locations", "Contact"],
+    editorial: ["Explore", "Stories", "About", "Contact"],
+    event: ["Speakers", "Program", "Venue", "Tickets"],
+    feature: ["Features", "Solutions", "Process", "Contact"],
+    web3: ["Marketplace", "Artists", "Activity", "Community"],
+    course: ["Course", "Curriculum", "Instructor", "FAQ"]
+  };
+
+  const sectionId = (index) => ["site-home", "site-features", "site-about", "site-contact"][index] || "site-home";
+  const esc = (s) => String(s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const art = (item, cls="") => `<div class="re-art ${cls}"><img src="./assets/art/art-${item.id}.jpg" alt="Illustration inspirée du visuel ${item.id}" loading="eager" decoding="async"><span class="re-art-glow"></span></div>`;
+  const logo = (cfg) => `<a class="re-brand" href="#site-home" aria-label="${esc(cfg.brand)} — accueil"><span class="re-brand-symbol">${esc((cfg.brand || "S").slice(0,1))}</span><span>${esc(cfg.brand)}</span></a>`;
+  const button = (label, secondary=false, href="#site-contact") => `<a class="re-button ${secondary ? "re-button-outline" : ""}" href="${href}">${esc(label)} <span aria-hidden="true">↗</span></a>`;
+  const nav = (cfg) => `<header class="re-header">${logo(cfg)}<nav class="re-nav">${(navByKind[cfg.kind] || navByKind.agency).map((label,i)=>`<a href="#${sectionId(Math.min(i,3))}">${esc(label)}</a>`).join("")}</nav><div class="re-header-actions"><button class="re-menu-toggle" type="button" aria-label="Ouvrir le menu" data-menu>☰</button>${cfg.kind === "store" ? '<button class="re-cart" type="button" data-cart>Bag <b data-cart-count>0</b></button>' : button(cfg.cta, false, "#site-contact")}</div></header>`;
+  const sectionHead = (eyebrow, title, text="") => `<div class="re-section-head"><span class="re-eyebrow">${esc(eyebrow)}</span><h2>${title}</h2>${text ? `<p>${esc(text)}</p>` : ""}</div>`;
+  const footer = (cfg) => `<footer class="re-footer" id="site-contact"><div class="re-footer-main"><div><span class="re-eyebrow">${esc(cfg.brand)}</span><h2>${esc(cfg.cta)}<br><i>starts here.</i></h2></div><form class="re-form"><label for="message-${cfg.id}">Let’s make something great.</label><div class="re-form-row"><input id="message-${cfg.id}" type="email" placeholder="Your email address" required><button type="submit">Send ↗</button></div><small>We’ll be in touch soon.</small></form></div><div class="re-footer-bottom"><span>© 2026 ${esc(cfg.brand)}. All rights reserved.</span><span>Instagram&nbsp;&nbsp; Behance&nbsp;&nbsp; LinkedIn</span><a href="#site-home">Back to top ↑</a></div></footer>`;
+
+  function shell(item, cfg, body, refs) {
+    const theme = themes[cfg.theme] || themes.blue;
+    const index = refs.findIndex(x => x.id === item.id);
+    const prev = refs[(index - 1 + refs.length) % refs.length];
+    const next = refs[(index + 1) % refs.length];
+    return `<div class="recreated-site re-theme-${cfg.theme} re-kind-${cfg.kind}" style="--re-bg:${theme.bg};--re-panel:${theme.panel};--re-panel2:${theme.panel2};--re-fg:${theme.fg};--re-muted:${theme.muted};--re-accent:${theme.accent};--re-accent2:${theme.accent2};--re-line:${theme.line};--re-soft:${theme.soft}">
+      <div class="re-site-wrap">${nav(cfg)}${body}${footer(cfg)}</div>
+      <nav class="re-gallery-dock" aria-label="Navigation entre les interfaces"><a href="#/" title="Retour à la galerie">← Galerie</a><span>${item.id}<i>/</i>56</span><a href="#/interface/${prev.id}" aria-label="Interface précédente">‹</a><a href="#/interface/${next.id}" aria-label="Interface suivante">›</a></nav>
+    </div>`;
   }
 
-  const renderers={portfolio:renderPortfolio,shop:renderShop,agency:renderAgency,realty:renderRealty,food:renderFood,saas:renderSaaS,fintech:renderFintech,event:renderEvent,foundation:renderFoundation,feature:renderFeature,nft:renderNFT,industrial:renderIndustrial,course:renderCourse,character:renderCharacter,planner:renderPlanner};
-  window.buildRecreatedSite = function(item) {
-    const i=idNumber(item.id)-1;
-    item.layout=layouts[i] || 'agency';
-    item.theme=palettes[themeNames[i]] || palettes.violet;
-    item.brand=brandById[item.id] || item.title.split('—')[0].trim();
-    item.headline=headlines[i];
-    const renderer=renderers[item.layout] || renderAgency;
-    return renderer(item);
-  };
-  window.bindRecreatedSite = function(root) {
-    const notify=(text='Thanks — your request is ready.')=>{
-      const toast=document.getElementById('site-toast');
-      if(!toast)return;
-      toast.querySelector('span').textContent=text;
-      toast.classList.add('show');
-      clearTimeout(window.__siteToastTimer);
-      window.__siteToastTimer=setTimeout(()=>toast.classList.remove('show'),2600);
-    };
-    root.querySelectorAll('[data-menu-toggle]').forEach(button=>button.addEventListener('click',()=>{
-      const links=root.querySelector('#w-links');
-      const open=links?.classList.toggle('is-open');
-      button.setAttribute('aria-expanded',String(!!open));
+  function mockBrowser(item) {
+    return `<div class="re-browser"><div class="re-browser-bar"><i></i><i></i><i></i><span>workspace.app</span><b>•••</b></div><div class="re-app-ui"><aside><div class="re-app-logo">${esc(item.id === "29" ? "Clayful" : "Workspace")}</div><span class="on">Overview</span><span>My tasks</span><span>Projects</span><span>Calendar</span><span>Settings</span></aside><div class="re-app-main"><div class="re-app-top"><b>Good morning, Alex ✦</b><span>Today · 09:41</span></div><div class="re-app-cards"><div><small>Project progress</small><strong>78%</strong><i></i></div><div><small>Tasks completed</small><strong>24</strong><i></i></div><div><small>Focus time</small><strong>4h 20m</strong><i></i></div></div><div class="re-app-list"><b>Today’s focus</b><span>✓&nbsp; Review the brand direction <em>Done</em></span><span>◯&nbsp; Prepare the landing page <em>In progress</em></span><span>◯&nbsp; Share the team update <em>09:30</em></span><span>◯&nbsp; Plan next week’s priorities <em>Later</em></span></div></div></div></div>`;
+  }
+
+  function genericCards(item, labels, variant="feature") {
+    return `<div class="re-card-grid ${variant}">${labels.map((label,i)=>`<article class="re-card"><div class="re-card-icon">${["✳","↗","◈","⌘"][i%4]}</div><span class="re-card-num">0${i+1}</span><h3>${esc(label)}</h3><p>${esc(["Made for the details that matter, with a clear point of view and room to grow.","A thoughtful approach that helps people move forward with confidence.","Flexible tools and considered craft bring the best ideas into focus."][i%3])}</p><a href="#site-contact" aria-label="Learn more about ${esc(label)}">Explore <b>↗</b></a></article>`).join("")}</div>`;
+  }
+
+  function visualCards(item, refs, count=3, kind="visual") {
+    const start = Number(item.id);
+    const pics = Array.from({length:count},(_,i)=>refs[(start+i*7)%refs.length]);
+    return `<div class="re-visual-grid">${pics.map((p,i)=>`<article class="re-visual-card"><div class="re-visual-img"><img src="./assets/art/art-${p.id}.jpg" alt="Visuel ${i+1} de la sélection" loading="lazy"><span class="re-visual-index">0${i+1}</span><a href="#site-contact" aria-label="Voir ${esc(p.title)}">↗</a></div><h3>${esc(kind === "product" ? ["Everyday Essential","Studio Edition","Limited Release","Daily Favourite"][i%4] : ["Explore the idea","Made to move","Designed to last"][i%3])}</h3><p>${esc(kind === "product" ? "Thoughtfully made for every day." : p.category)}</p>${kind === "product" ? '<button type="button" class="re-quick-add" data-add>Add to bag +</button>' : ''}</article>`).join("")}</div>`;
+  }
+
+  function renderSaaS(item,cfg,refs) {
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-hero re-saas-hero"><div class="re-hero-copy"><span class="re-eyebrow"><i></i>${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-features">${esc(cfg.second)} <span>→</span></a></div><div class="re-social-proof"><div class="re-avatars"><b>A</b><b>J</b><b>M</b><b>+</b></div><span>Trusted by <strong>12,000+</strong> people who get things done.</span></div></div><div class="re-saas-art">${art(item,"art-large")}<div class="re-floating-stat"><b>↗ 84%</b><small>more focused this week</small></div><div class="re-floating-note">✦&nbsp; Progress feels good.</div></div><div class="re-wave"></div></section>
+      <section class="re-logo-strip"><span>Built for work that matters</span><b>ACME</b><b>Quanta</b><b>northern</b><b>orbit</b><b>momentum</b></section>
+      <section class="re-section" id="site-features">${sectionHead("Everything in one place","Make room for your best work.","A calm, flexible workspace that helps you focus on what matters today.")}${genericCards(item,["Plan with clarity","Keep momentum","Celebrate progress"])}</section>
+      <section class="re-product-section" id="site-about"><div class="re-product-copy"><span class="re-eyebrow">A workspace that works for you</span><h2>Less busywork.<br><i>More great work.</i></h2><p>Bring your tasks, notes and team into one simple flow. Set a goal, see what’s next and enjoy every small win.</p>${button(cfg.second,true,"#site-contact")}</div>${mockBrowser(item)}</section>
+      <section class="re-quote"><span class="re-quote-mark">“</span><blockquote>Finally, a workspace that makes us feel focused instead of overwhelmed.</blockquote><small>— Jamie R. · Product lead</small></section>
+    </main>`,refs);
+  }
+
+  function renderAgency(item,cfg,refs) {
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-hero re-agency-hero"><div class="re-hero-copy"><span class="re-eyebrow"><i></i>${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-features">${esc(cfg.second)} <span>↗</span></a></div><div class="re-trust-row"><span>Strategy</span><b>·</b><span>Design</span><b>·</b><span>Technology</span></div></div><div class="re-agency-art">${art(item,"art-tall")}<div class="re-vertical-label">INDEPENDENT · CREATIVE · DIGITAL</div><div class="re-art-caption"><span>01 / 04</span><b>Ideas that move<br>business forward.</b></div></div></section>
+      <section class="re-stat-row"><div><b>12+</b><span>Years of experience</span></div><div><b>84</b><span>Projects delivered</span></div><div><b>18</b><span>Countries reached</span></div><div><b>96%</b><span>Client satisfaction</span></div></section>
+      <section class="re-section" id="site-features">${sectionHead("What we do","Big ideas, made real.","From the first conversation to launch day, we bring clarity to every step.")}${genericCards(item,["Brand & strategy","Digital experiences","Web development","Growth & support"])}</section>
+      <section class="re-about-band" id="site-about"><div class="re-about-art">${art(item,"art-wide")}</div><div><span class="re-eyebrow">Good work, good people</span><h2>Built around<br><i>your next move.</i></h2><p>${esc(cfg.lead)} We bring curious minds and practical experience together to create work with a lasting effect.</p>${button("Meet the studio",true,"#site-contact")}</div></section>
+      <section class="re-contact-band"><span class="re-eyebrow">Have a good one in mind?</span><h2>Let’s make it<br><i>happen.</i></h2>${button(cfg.cta,false,"#site-contact")}</section>
+    </main>`,refs);
+  }
+
+  function renderStore(item,cfg,refs) {
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-store-hero"><div class="re-store-copy"><span class="re-eyebrow"><i></i>${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-products">${esc(cfg.second)} →</a></div><div class="re-store-perks"><span>♧ &nbsp;Free shipping</span><span>◇ &nbsp;Easy returns</span><span>▣ &nbsp;Secure checkout</span></div></div>${art(item,"store-art")}</section>
+      <section class="re-category-row" id="site-features"><a href="#site-products"><span>01</span><b>New arrivals</b><i>↗</i></a><a href="#site-products"><span>02</span><b>Best sellers</b><i>↗</i></a><a href="#site-products"><span>03</span><b>Everyday essentials</b><i>↗</i></a><a href="#site-products"><span>04</span><b>Limited editions</b><i>↗</i></a></section>
+      <section class="re-section re-store-products" id="site-products">${sectionHead("Selected for you","The pieces worth keeping.","Thoughtful design, dependable quality and details you’ll notice every day.")}${visualCards(item,refs,4,"product")}</section>
+      <section class="re-store-feature" id="site-about"><div class="re-store-feature-art">${art(item,"art-wide")}</div><div><span class="re-eyebrow">Made for real life</span><h2>Good design<br><i>goes further.</i></h2><p>We choose lasting materials, useful details and ideas that make everyday life a little better.</p>${button("Our story",true,"#site-contact")}</div></section>
+      <section class="re-newsletter"><span class="re-eyebrow">The good stuff, occasionally</span><h2>Get the latest, first.</h2><form class="re-form re-news-form"><input type="email" placeholder="Your email address" required><button type="submit">Sign me up ↗</button></form></section>
+    </main>`,refs);
+  }
+
+  function renderEstate(item,cfg,refs) {
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-estate-hero"><div class="re-estate-image">${art(item,"estate-art")}</div><div class="re-estate-overlay"><span class="re-eyebrow"><i></i>${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p>${button(cfg.cta,false,"#site-search")}</div><form class="re-property-search" id="site-search"><label><small>Location</small><select><option>Anywhere</option><option>San Francisco</option><option>Los Angeles</option><option>New York</option></select></label><label><small>Property type</small><select><option>Any property</option><option>House</option><option>Apartment</option></select></label><label><small>Budget</small><select><option>Any price</option><option>$250k–$500k</option><option>$500k–$1m</option></select></label><button type="submit">Search homes <b>↗</b></button></form></section>
+      <section class="re-section" id="site-features">${sectionHead("A good place to begin","Find a place that feels like yours.","Hand-picked homes in neighbourhoods you’ll love, with details that make choosing easier.")}${visualCards(item,refs,3,"home")}</section>
+      <section class="re-estate-about" id="site-about"><div>${art(item,"art-wide")}</div><div><span class="re-eyebrow">A little more than a listing</span><h2>Good homes.<br><i>Better beginnings.</i></h2><p>Our local experts make every step clear, from the first saved home to the moment you get the keys.</p>${button("Meet our team",true,"#site-contact")}</div></section>
+      <section class="re-estate-stats"><div><b>1,200+</b><span>Homes found</span></div><div><b>28</b><span>Neighbourhoods</span></div><div><b>4.9/5</b><span>Happy movers</span></div></section>
+    </main>`,refs);
+  }
+
+  function renderRestaurant(item,cfg,refs) {
+    const russian = item.id === "39";
+    const words = russian ? ["Капучино","Матча латте","Круассан","Чизкейк"] : ["House special","Crispy classic","Green garden","Hot honey"];
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-food-hero"><div class="re-food-copy"><span class="re-eyebrow"><i></i>${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-menu">${esc(cfg.second)} ↓</a></div><div class="re-rating"><b>★★★★★</b><span>4.9 / 5 · made fresh every day</span></div></div>${art(item,"food-art")}<div class="re-food-sticker">FRESH<br><b>DAILY</b></div></section>
+      <div class="re-food-categories"><a href="#site-menu">${russian?"Кофе":"Burgers"}</a><a href="#site-menu">${russian?"Выпечка":"Sides"}</a><a href="#site-menu">${russian?"Десерты":"Drinks"}</a><a href="#site-menu">${russian?"Зёрна":"Desserts"}</a></div>
+      <section class="re-section re-menu-section" id="site-menu">${sectionHead(russian?"Наше меню":"Fresh from the kitchen",russian?"Любимые напитки и десерты":"Made with good ingredients.","Carefully prepared, generously served and always made fresh to order.")}<div class="re-menu-grid">${words.map((w,i)=>`<article class="re-menu-card"><div class="re-menu-image">${art(refs[(Number(item.id)+i*9)%refs.length],"menu-art")}</div><div class="re-menu-info"><span>0${i+1} · HOUSE FAVOURITE</span><h3>${w}</h3><p>Fresh, full of flavour and made for a very good day.</p><div><b>${russian?"₽":"$"}${[8,12,10,9][i]}</b><button data-add type="button">Add +</button></div></div></article>`).join("")}</div></section>
+      <section class="re-food-story" id="site-about"><span class="re-eyebrow">Good food, good people</span><h2>Come hungry.<br><i>Leave happy.</i></h2><p>We believe the best meals bring people together. Stop by for a quick favourite or stay a little longer.</p>${button("Find us nearby",true,"#site-contact")}</section>
+      <section class="re-food-reviews"><div><span class="re-eyebrow">From our table to yours</span><h2>Kind words, shared.</h2></div><blockquote>“The kind of place you come back to before you’ve even left.”<small>— Alex R. · Local regular</small></blockquote></section>
+    </main>`,refs);
+  }
+
+  function renderPortfolio(item,cfg,refs) {
+    const developer = ["14","27","31","37","38","55","56"].includes(item.id);
+    const skills = developer ? ["React","Next.js","TypeScript","Design systems"] : ["Art direction","Brand identity","UI / UX","Digital design"];
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-portfolio-hero"><div class="re-portfolio-copy"><span class="re-eyebrow"><i></i>${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-work">${esc(cfg.second)} ↘</a></div><div class="re-social-links"><a href="#site-contact">in</a><a href="#site-contact">Be</a><a href="#site-contact">✳</a></div></div><div class="re-portrait-stage">${art(item,"portrait-art")}<div class="re-portrait-orbit"></div><span class="re-portrait-tag">DESIGN · DIGITAL · STORY</span></div></section>
+      <section class="re-portfolio-stats"><div><b>05+</b><span>Years experience</span></div><div><b>40+</b><span>Projects completed</span></div><div><b>18</b><span>Happy clients</span></div><div><b>12</b><span>Countries reached</span></div></section>
+      <section class="re-section" id="site-work">${sectionHead("Featured work","A few things I’ve made.","A selection of thoughtful projects, built with curiosity and a clear point of view.")}${visualCards(item,refs,3,"work")}</section>
+      <section class="re-portfolio-about" id="site-about"><div class="re-about-portrait">${art(item,"art-wide")}</div><div><span class="re-eyebrow">A little about me</span><h2>Turning ideas<br><i>into real things.</i></h2><p>${esc(cfg.lead)} I care about the details, the feeling and the little moments that make a digital experience stick.</p><div class="re-skill-tags">${skills.map(s=>`<span>${esc(s)}</span>`).join("")}</div>${button("More about me",true,"#site-contact")}</div></section>
+      <section class="re-skills"><div><span class="re-eyebrow">A good toolkit</span><h2>Made with<br><i>intention.</i></h2></div><div class="re-skill-list">${skills.map((s,i)=>`<div><span>0${i+1}</span><b>${esc(s)}</b><i>${[95,88,92,84][i]}%</i><em style="--skill:${[95,88,92,84][i]}%"></em></div>`).join("")}</div></section>
+    </main>`,refs);
+  }
+
+  function renderEvent(item,cfg,refs) {
+    const course = item.id === "52";
+    const cards = course ? ["Composition","Modeling & Texturing","Animation","Camera & Lights"] : ["The ideas that shape us","People building tomorrow","A world without limits","Culture in motion"];
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-event-hero"><div class="re-event-copy"><span class="re-eyebrow"><i></i>${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-event-date"><b>${course?"01 JULY 2026":"02–03 DEC 2026"}</b><span>${course?"New course starts":"Online · Worldwide"}</span></div><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-features">${esc(cfg.second)} ↓</a></div></div>${art(item,"event-art")}<div class="re-countdown"><span><b>12</b><small>DAYS</small></span><span><b>08</b><small>HOURS</small></span><span><b>36</b><small>MINS</small></span></div></section>
+      <section class="re-section" id="site-features">${sectionHead(course?"The program":"The experience",course?"A creative skill, step by step.":"Big questions. Bright minds.","Join a thoughtful community for a day of learning, discovery and new perspectives.")}<div class="re-event-grid">${cards.map((t,i)=>`<article><span>0${i+1} · ${course?"WEEK":"SESSION"}</span><h3>${esc(t)}</h3><p>Explore ideas, learn from the people doing the work and leave inspired to make your next move.</p><a href="#site-contact">${course?"Lesson details":"Read more"} ↗</a></article>`).join("")}</div></section>
+      <section class="re-speakers" id="site-about"><div><span class="re-eyebrow">The people behind the ideas</span><h2>Meet the<br><i>speakers.</i></h2></div><div class="re-speaker-row">${[0,1,2].map((n)=>`<div class="re-speaker">${art(refs[(Number(item.id)+n*10)%refs.length],"speaker-art")}<b>${["Alex Morgan","Samira Lee","Jordan Blake"][n]}</b><small>${course?"3D artist":"Founder & creative lead"}</small></div>`).join("")}</div></section>
+    </main>`,refs);
+  }
+
+  function renderFeature(item,cfg,refs) {
+    const titles = item.id === "28" || item.id === "51" ? ["Dynamic Shapes","Vibrant Colors","Bold Typography"] : ["Flexible by design","Made to stand out","Ready to grow"];
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-feature-hero"><span class="re-eyebrow">${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><div class="re-feature-hero-inner"><p>${esc(cfg.lead)}</p>${button(cfg.cta)}</div><div class="re-feature-visual">${art(item,"feature-art")}<div class="re-shape shape-a"></div><div class="re-shape shape-b"></div><div class="re-shape shape-c"></div></div></section>
+      <section class="re-section" id="site-features">${sectionHead("A few things we believe","The details make the difference.","Each part of the experience is considered to work beautifully on its own and even better together.")}${genericCards(item,titles,"feature")}</section>
+      <section class="re-feature-process" id="site-about"><span class="re-eyebrow">From first sketch to final detail</span><h2>Made to move<br><i>your idea forward.</i></h2><div class="re-process-row">${["Discover","Shape","Build","Launch"].map((s,i)=>`<div><span>0${i+1}</span><i>${["⌕","✳","◈","↗"][i]}</i><b>${s}</b><small>Clear thinking, careful craft and a better result at every step.</small></div>`).join("")}</div></section>
+    </main>`,refs);
+  }
+
+  function renderWeb3(item,cfg,refs) {
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-web3-hero"><div class="re-web3-copy"><span class="re-eyebrow">${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-features">${esc(cfg.second)} →</a></div><div class="re-web3-stats"><span><b>12k+</b> collectors</span><span><b>860</b> artists</span></div></div>${art(item,"web3-art")}<div class="re-chain-orb">✦</div></section>
+      <section class="re-web3-banner">ART · CULTURE · COMMUNITY <span>✦</span> ART · CULTURE · COMMUNITY <span>✦</span> ART · CULTURE</section>
+      <section class="re-section" id="site-features">${sectionHead("The collection","One of one. Yours to discover.","Meet the artists and explore fresh work from the community.")}${visualCards(item,refs,4,"art")}</section>
+      <section class="re-web3-steps" id="site-about"><span class="re-eyebrow">Your next favourite piece is waiting</span><h2>Collect with<br><i>confidence.</i></h2><div class="re-web3-step-row"><div><b>01</b><h3>Connect a wallet</h3><p>Set up securely in just a few simple steps.</p></div><div><b>02</b><h3>Find your piece</h3><p>Explore original work from independent artists.</p></div><div><b>03</b><h3>Make it yours</h3><p>Collect on-chain and share what inspires you.</p></div></div></section>
+    </main>`,refs);
+  }
+
+  function renderFintech(item,cfg,refs) {
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-fintech-hero"><div class="re-fintech-copy"><span class="re-eyebrow"><i></i>${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-features">${esc(cfg.second)} →</a></div><div class="re-fintech-trust"><span>●&nbsp; Secure by design</span><span>◈&nbsp; Made for everyone</span></div></div><div class="re-card-stage"><div class="re-credit-card"><div class="re-credit-brand">${esc(cfg.brand)}</div><span>VISA</span><div class="re-card-chip"></div><strong>•••• &nbsp;•••• &nbsp;•••• &nbsp; 0428</strong><small>GOOD THINGS AHEAD</small></div>${art(item,"fintech-art")}<div class="re-coin coin-one">$</div><div class="re-coin coin-two">↗</div></div></section>
+      <section class="re-section" id="site-features">${sectionHead("Money, made simpler","Everything you need to move with confidence.","From your first payment to your next big plan, keep life moving from one easy place.")}${genericCards(item,["Fast, simple transfers","Built-in security","Always in control"])}</section>
+      <section class="re-fintech-flow" id="site-about"><div><span class="re-eyebrow">A little more freedom</span><h2>Tap. Send.<br><i>Done.</i></h2><p>Manage daily payments, make a transfer and see where your money is going — all from one clear app.</p>${button("Get the app",true,"#site-contact")}</div>${mockBrowser(item)}</section>
+      <section class="re-fintech-numbers"><div><b>24/7</b><span>Support when you need it</span></div><div><b>0 fees</b><span>On everyday transfers</span></div><div><b>100%</b><span>In control of your money</span></div></section>
+    </main>`,refs);
+  }
+
+  function renderIndustry(item,cfg,refs) {
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-industry-hero"><div class="re-industry-copy"><span class="re-eyebrow">${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p><div class="re-hero-actions">${button(cfg.cta)}<a class="re-text-link" href="#site-features">${esc(cfg.second)} ↓</a></div><div class="re-industry-stats"><span><b>99.8%</b> print accuracy</span><span><b>24h</b> turnaround</span></div></div>${art(item,"industry-art")}</section>
+      <section class="re-section" id="site-features">${sectionHead("Our services","Built for ideas at every scale.","From one-off prototypes to repeat production, we make complex parts straightforward.")}<div class="re-service-list">${["FDM printing","SLA resin printing","SLS nylon printing","Rapid prototyping","Custom part production"].map((s,i)=>`<a href="#site-contact"><span>0${i+1}</span><b>${s}</b><small>Precision, material choice and practical guidance at every stage.</small><i>↗</i></a>`).join("")}</div></section>
+      <section class="re-industry-about" id="site-about"><div>${art(item,"art-wide")}</div><div><span class="re-eyebrow">Reliable by design</span><h2>Good parts.<br><i>On time.</i></h2><p>${esc(cfg.lead)} Our specialists help you choose the right process and finish, from first sample to final delivery.</p>${button("Talk to an expert",true,"#site-contact")}</div></section>
+    </main>`,refs);
+  }
+
+  function renderEditorial(item,cfg,refs) {
+    const chars = item.id === "34";
+    return shell(item,cfg,`<main id="site-home">
+      <section class="re-editorial-hero"><div class="re-editorial-copy"><span class="re-eyebrow">${esc(cfg.eyebrow)}</span><h1>${esc(cfg.headline)}</h1><p>${esc(cfg.lead)}</p>${button(cfg.cta)}</div>${art(item,"editorial-art")}<div class="re-editorial-index">01 — 06<br><span>SCROLL TO EXPLORE ↓</span></div></section>
+      <section class="re-section" id="site-features">${sectionHead(chars?"Hunters · stories · abilities":"Ideas worth reading","A little more to explore.","Browse the latest stories, profiles and useful inspiration from our world.")}${visualCards(item,refs,3,"story")}</section>
+      <section class="re-editorial-list" id="site-about"><div><span class="re-eyebrow">A closer look</span><h2>${chars?"Meet the characters":"Stories for curious minds."}</h2></div><div>${["The people behind the story","A closer look at the craft","What comes next"].map((s,i)=>`<a href="#site-contact"><span>0${i+1}</span><b>${s}</b><i>↗</i></a>`).join("")}</div></section>
+    </main>`,refs);
+  }
+
+  function renderSite(item, refs) {
+    const cfg = site[Number(item.id)-1] || site[0];
+    cfg.id = item.id;
+    const renderers = {saas:renderSaaS,agency:renderAgency,store:renderStore,estate:renderEstate,restaurant:renderRestaurant,portfolio:renderPortfolio,event:renderEvent,feature:renderFeature,web3:renderWeb3,fintech:renderFintech,industry:renderIndustry,editorial:renderEditorial,course:renderEvent};
+    const render = renderers[cfg.kind] || renderAgency;
+    return render(item,cfg,refs);
+  }
+
+  window.renderRecreatedSite = function(item, refs) {
+    document.title = `${site[Number(item.id)-1]?.brand || item.title} — Studio 56`;
+    const app = document.getElementById("app");
+    app.innerHTML = renderSite(item, refs);
+    app.querySelectorAll('a[href^="#site-"]').forEach(link => link.addEventListener("click", event => {
+      const target = link.getAttribute("href").slice(1);
+      const node = document.getElementById(target);
+      if (!node) return;
+      event.preventDefault();
+      node.scrollIntoView({behavior:"smooth",block:"start"});
+      document.querySelector(".re-nav")?.classList.remove("is-open");
     }));
-    root.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',event=>{
-      const action=button.dataset.action;
-      if(action==='favorite') { event.preventDefault(); button.classList.toggle('is-favorite'); button.textContent=button.classList.contains('is-favorite')?'♥':'♡'; notify(button.classList.contains('is-favorite')?'Saved to your favorites.':'Removed from favorites.'); }
-      if(action==='add') { event.preventDefault(); const count=root.querySelector('#cart-count'); if(count) count.textContent=String((Number(count.textContent)||0)+1); notify('Added to your bag.'); }
-      if(action==='search') { event.preventDefault(); notify('Searching available homes…'); }
-      if(action==='notify') { event.preventDefault(); notify('Your new item is ready to add.'); }
+    app.querySelectorAll("[data-menu]").forEach(button => button.addEventListener("click", () => document.querySelector(".re-nav")?.classList.toggle("is-open")));
+    app.querySelectorAll("[data-add]").forEach(button => button.addEventListener("click", () => {
+      const count = app.querySelector("[data-cart-count]");
+      if (count) count.textContent = String(Number(count.textContent || 0) + 1);
+      const original = button.textContent;
+      button.textContent = "Added ✓";
+      setTimeout(() => { if (button.isConnected) button.textContent = original; }, 1300);
     }));
-    root.querySelectorAll('form').forEach(form=>form.addEventListener('submit',event=>{event.preventDefault();notify('Thanks — your message has been received.');form.reset();}));
-    root.querySelectorAll('[data-food-filter]').forEach(button=>button.addEventListener('click',()=>{
-      root.querySelectorAll('[data-food-filter]').forEach(x=>x.classList.toggle('active',x===button));
-      const filter=button.dataset.foodFilter;
-      root.querySelectorAll('[data-food-kind]').forEach(card=>card.hidden=filter!=='all'&&card.dataset.foodKind!==filter);
+    app.querySelectorAll("[data-cart]").forEach(button => button.addEventListener("click", () => {
+      const count = app.querySelector("[data-cart-count]")?.textContent || "0";
+      button.innerHTML = `Bag <b data-cart-count>${count}</b> · ${count} item${count === "1" ? "" : "s"}`;
+    }));
+    app.querySelectorAll(".re-property-search").forEach(form => form.addEventListener("submit", event => {
+      event.preventDefault();
+      const submit = form.querySelector("button");
+      if (submit) submit.textContent = "Homes found ↓";
+      document.getElementById("site-features")?.scrollIntoView({behavior:"smooth",block:"start"});
+      setTimeout(() => { if (submit?.isConnected) submit.innerHTML = 'Search homes <b>↗</b>'; }, 1800);
+    }));
+    app.querySelectorAll(".re-form").forEach(form => form.addEventListener("submit", event => {
+      event.preventDefault();
+      const button = form.querySelector("button[type=submit]");
+      if (button) { const label = button.textContent; button.textContent = "Thanks — received ✓"; setTimeout(() => { if (button.isConnected) button.textContent = label; }, 2200); }
+      form.reset();
     }));
   };
 })();
